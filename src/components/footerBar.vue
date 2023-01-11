@@ -37,7 +37,7 @@ export default {
       value: 'https://twitter.com/'
     }
     this.links.linkedin = {
-      name: 'Linkedin',
+      name: 'Linkedn',
       value: 'https://www.linkedin.com/'
     }
   }
