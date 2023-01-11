@@ -1,0 +1,49 @@
+@mixin header {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin: 40px 0 40px 0;
+}
+
+@mixin header-text {
+  font: {
+    family: $font-primary;
+    size: 12px;
+  }
+  letter-spacing: 8px;
+  text-transform: uppercase;
+}
+
+@mixin action-button {
+  font-family: $font-primary;
+  font-weight: 600;
+  letter-spacing: 2px;
+  border: none;
+  color: map-get($font-basic-colors, "light");
+  background-color: map-get($main-colors, "secondary");
+  padding: 15px 50px 15px 50px;
+  width: 18vw;
+}
+
+@mixin field-shadow {
+  box-shadow: 0 30px 60px -30px rgba(0,0,0,.45);
+}
+
+@mixin product-shadow {
+  box-shadow: 0 30px 60px -30px rgba(0,0,0,.45);
+}
+
+@mixin top-border {
+  border-top: 1px solid map-get($font-basic-colors, "light-grey");
+}
+
+@mixin text-link-animation {
+  transition: {
+    duration: 0.3s;
+  }
+
+  &:hover {
+    color: map-get($main-colors, "secondary");
+    cursor: pointer;
+  }
+}
