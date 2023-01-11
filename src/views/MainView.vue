@@ -101,13 +101,13 @@ export default {
   created () {
     this.title = 'Simple Vue App made for Rocio'
     this.message = {
-      title: console.log(navigator.userAgent,navigator.userAgentData ),
+      title: '',
       subtitle: 'this app shows capabilities of using vue in simple cases'
     }
     this.productAction.button = 'MORE PRODUCTS'
     this.contact = {
       title: 'Take a contact with us',
-      subtitle: 'We are working with different people on different projects',
+      subtitle: console.log(navigator.userAgent,navigator.userAgentData ),
       button: 'SEND MESSAGE'
     }
     this.sections = {
