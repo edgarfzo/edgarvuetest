@@ -27,6 +27,7 @@ jobs:
         with:
           node-version: 16
       - run: npm install 
+      - run: npm i firebase
       - run: firebase deploy
 
 
