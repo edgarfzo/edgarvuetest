@@ -13,6 +13,16 @@ jobs:
     environment: 'production'
     steps:
       - uses: actions/checkout@v2
+        env:
+          VUE_APP_ENV: ${{ vars.VUE_APP_ENV }}
+          VUE_APP_API_KEY: ${{ vars.UE_APP_API_KEY }}
+          VUE_APP_AUTH_DOMAIN: ${{ vars.VUE_APP_AUTH_DOMAIN }}
+          VUE_APP_DB_URL: ${{ vars.VUE_APP_DB_URL }}
+          VUE_APP_PROJECT_ID: ${{ vars.VUE_APP_PROJECT_ID }}
+          VUE_APP_STORAGE_BUCKET: ${{ vars.VUE_APP_STORAGE_BUCKET }}
+          VUE_APP_MSG_SENDER_ID: ${{ vars.VUE_APP_MSG_SENDER_ID }}
+          VUE_APP_ID: ${{ vars.VUE_APP_ID }}
+          VUE_APP_MEASURE_ID: ${{ vars.VUE_APP_MEASURE_ID }}
       - run: npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
