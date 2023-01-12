@@ -9,6 +9,15 @@
       <div class="message-section">
         <div class="subtitle-field">
           <div class="subtitle-header">
+            <div class="camera-button">
+  <button type="button" class="button is-rounded" :class="{ 'is-primary' : !isCameraOpen, 'is-danger' : isCameraOpen}" @click="toggleCamera">
+    <span v-if="!isCameraOpen">Open Camera</span>
+    <span v-else>Close Camera</span>
+  </button>
+</div>
+<div v-if="isCameraOpen" class="camera-box">  
+  <video ref="camera" :width="450" :height="337.5" autoplay></video>
+</div>
             <h4>{{ sections.message }}</h4>
           </div>
           <div class="subtitle-body">
@@ -64,6 +73,7 @@ export default {
   name: 'MainView',
   data () {
     return {
+      isCameraOpen: false,
       title: '',
       message: {
         title: '',
@@ -118,6 +128,36 @@ export default {
     this.getProducts()
   },
   methods: {
+    createCameraElement() {
+  const constraints = (window.constraints = {
+    audio: false,
+    video: true
+  });
+  navigator.mediaDevices
+    .getUserMedia(constraints)
+    .then(stream => {
+      this.$refs.camera.srcObject = stream;
+    })
+    .catch(error => {
+      alert("May the browser didn't support or there is some errors.");
+  });
+},
+    toggleCamera() {
+      if(this.isCameraOpen) {
+    this.isCameraOpen = false;
+    this.stopCameraStream();
+  } else {
+    this.isCameraOpen = true;
+    this.createCameraElement();
+  }
+},
+stopCameraStream() {
+  let tracks = this.$refs.camera.srcObject.getTracks();
+
+  tracks.forEach(track => {
+    track.stop();
+  });
+},
     linkToPortfolio: function () {
       this.$router.push({ name: 'portfolio' })
     },
