@@ -14,7 +14,7 @@ export default {
   name: 'app',
   components: { navBar, footerBar },
   metaInfo: {
-      title: env.VUE_APP_ENV
+      title: process.env.VUE_APP_ENV
     }
 }
 </script>
