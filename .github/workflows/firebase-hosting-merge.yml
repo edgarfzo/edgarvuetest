@@ -8,6 +8,7 @@ name: Deploy to Firebase Hosting on merge
 jobs:
   build_and_deploy_dev:
     runs-on: ubuntu-latest
+    environment: 'development'
     steps:
       - uses: actions/checkout@v2
       - run: npm ci && npm run build
@@ -22,8 +23,8 @@ jobs:
   build_and_deploy_prod:
     needs: build_and_deploy_dev
     runs-on: ubuntu-latest
+    environment: 'production'
     steps:
-      - uses: trstringer/manual-approval@v1
       - uses: actions/checkout@v2
       - run: npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
