@@ -12,7 +12,10 @@ import footerBar from './components/footerBar'
 
 export default {
   name: 'app',
-  components: { navBar, footerBar }
+  components: { navBar, footerBar },
+  metaInfo: {
+      title: process.env.VUE_APP_ENV
+    }
 }
 </script>
 <style lang="scss">
