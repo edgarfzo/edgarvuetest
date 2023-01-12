@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <h1>{{ env.VUE_APP_ENV || 'Welcome' }}</h1>
     <nav-bar></nav-bar>
     <router-view :key="$route.path"></router-view>
     <footer-bar></footer-bar>
@@ -13,14 +12,10 @@ import footerBar from './components/footerBar'
 
 export default {
   name: 'app',
-  computed: {
-    env() {
-      console.log('process.env', process.env)
-      return process.env;
-    }
-  },
   components: { navBar, footerBar },
-
+  metaInfo: {
+      title: env.VUE_APP_ENV
+    }
 }
 </script>
 <style lang="scss">
