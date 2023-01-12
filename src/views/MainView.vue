@@ -99,7 +99,7 @@ export default {
     }
   },
   created () {
-    this.title = 'HOLAAAA'
+    this.title = 'BUT WANTS TO BE PROD'
     this.message = {
       title: '',
       subtitle: 'this app shows capabilities of using vue in simple cases'
@@ -107,7 +107,7 @@ export default {
     this.productAction.button = 'MORE PRODUCTS'
     this.contact = {
       title: 'Take a contact with us',
-      subtitle: navigator.userAgent + navigator.userAgentData,
+      subtitle: '',
       button: 'SEND MESSAGE'
     }
     this.sections = {
