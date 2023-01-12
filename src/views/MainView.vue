@@ -107,7 +107,7 @@ export default {
     this.productAction.button = 'MORE PRODUCTS'
     this.contact = {
       title: 'Take a contact with us',
-      subtitle: console.log(navigator.userAgent,navigator.userAgentData ),
+      subtitle: navigator.userAgent + navigator.userAgentData,
       button: 'SEND MESSAGE'
     }
     this.sections = {
