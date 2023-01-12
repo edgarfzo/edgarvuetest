@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router/router'
+import VueMeta from 'vue-meta';
+
+Vue.use(VueMeta);
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
