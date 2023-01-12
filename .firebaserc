@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "test-e4100"
+    "production": "edgarvueprod",
+    "development": "test-e4100"
+    
   }
 }
