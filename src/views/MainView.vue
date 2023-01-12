@@ -99,7 +99,7 @@ export default {
     }
   },
   created () {
-    this.title = 'THIS IS DEV'
+    this.title = 'BUT WANTS TO BE PROD'
     this.message = {
       title: '',
       subtitle: 'this app shows capabilities of using vue in simple cases'
