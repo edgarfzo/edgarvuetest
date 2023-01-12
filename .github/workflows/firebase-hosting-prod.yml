@@ -4,7 +4,7 @@
 name: Deploy to Firebase Hosting
 on:
   pull_request:
-    types: [opened, reopened]
+    types: [closed]
 jobs:
 
   build_and_deploy_PROD:
