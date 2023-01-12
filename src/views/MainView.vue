@@ -142,7 +142,7 @@ export default {
     }
   },
   created() {
-    this.title = 'PROD'
+    this.title = process.env.VUE_APP_ENV
     this.message = {
       title: '',
       subtitle: 'this app shows capabilities of using vue in simple cases'
