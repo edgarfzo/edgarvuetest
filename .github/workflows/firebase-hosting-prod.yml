@@ -3,8 +3,9 @@
 
 name: Deploy to Firebase Hosting on PROD
 on:
-  pull_request:
-    types: [closed]
+  push:
+    branches:    
+      - 'master'
 jobs:
 
   build_and_deploy_PROD:
