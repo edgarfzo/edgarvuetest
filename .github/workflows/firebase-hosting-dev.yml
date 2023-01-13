@@ -22,8 +22,8 @@ jobs:
             echo 'VUE_APP_STORAGE_BUCKET=${{vars.VUE_APP_STORAGE_BUCKET}}' >> .env &&
             echo 'VUE_APP_MSG_SENDER_ID=${{vars.VUE_APP_MSG_SENDER_ID}}' >> .env &&
             echo 'VUE_APP_ID=${{vars.VUE_APP_ID}}' >> .env &&
-            echo 'UE_APP_MEASURE_ID=${{vars.UE_APP_MEASURE_ID}}' >> .env &&
-            mv .env
+            echo 'UE_APP_MEASURE_ID=${{vars.UE_APP_MEASURE_ID}}' >> .env
+            
       - run: npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
