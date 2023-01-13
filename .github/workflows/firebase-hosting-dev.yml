@@ -13,16 +13,16 @@ jobs:
     environment: 'development'
     steps:
       - uses: actions/checkout@v2
-      - run: touch env.
-            echo 'VUE_APP_ENV=${{vars.VUE_APP_ENV}}' >> .env
-            echo 'VUE_APP_API_KEY=${{vars.VUE_APP_API_KEY}}' >> .env
-            echo 'VUE_APP_AUTH_DOMAIN=${{vars.VUE_APP_AUTH_DOMAIN}}' >> .env
-            echo 'VUE_APP_DB_URL=${{vars.VUE_APP_DB_URL}}' >> .env
-            echo 'VUE_APP_PROJECT_ID=${{vars.VUE_APP_PROJECT_ID}}' >> .env
-            echo 'VUE_APP_STORAGE_BUCKET=${{vars.VUE_APP_STORAGE_BUCKET}}' >> .env
-            echo 'VUE_APP_MSG_SENDER_ID=${{vars.VUE_APP_MSG_SENDER_ID}}' >> .env
-            echo 'VUE_APP_ID=${{vars.VUE_APP_ID}}' >> .env
-            echo 'UE_APP_MEASURE_ID=${{vars.UE_APP_MEASURE_ID}}' >> .env
+      - run: touch env. &&
+            echo 'VUE_APP_ENV=${{vars.VUE_APP_ENV}}' >> .env &&
+            echo 'VUE_APP_API_KEY=${{vars.VUE_APP_API_KEY}}' >> .env &&
+            echo 'VUE_APP_AUTH_DOMAIN=${{vars.VUE_APP_AUTH_DOMAIN}}' >> .env &&
+            echo 'VUE_APP_DB_URL=${{vars.VUE_APP_DB_URL}}' >> .env &&
+            echo 'VUE_APP_PROJECT_ID=${{vars.VUE_APP_PROJECT_ID}}' >> .env &&
+            echo 'VUE_APP_STORAGE_BUCKET=${{vars.VUE_APP_STORAGE_BUCKET}}' >> .env &&
+            echo 'VUE_APP_MSG_SENDER_ID=${{vars.VUE_APP_MSG_SENDER_ID}}' >> .env &&
+            echo 'VUE_APP_ID=${{vars.VUE_APP_ID}}' >> .env &&
+            echo 'UE_APP_MEASURE_ID=${{vars.UE_APP_MEASURE_ID}}' >> .env &&
             mv .env
       - run: npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
