@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router/router'
 import VueMeta from 'vue-meta';
 import axios from './plugins/axios'
-import { firebaseConfig, initializeApp, getAnalytics, getFirestore } from './firebaseConfig'
+import { firebaseConfig, initializeApp, getAnalytics, getFirestore, getDatabase } from './firebaseConfig'
 
 
 Vue.use(VueMeta);
@@ -13,6 +13,7 @@ Vue.use(VueMeta);
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
+const database = getDatabase(app);
 
 
 Vue.config.productionTip = false
@@ -21,3 +22,5 @@ new Vue({
   router,
   render: h => h(App)
 }).$mount('#app')
+
+export { database }

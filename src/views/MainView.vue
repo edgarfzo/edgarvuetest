@@ -1,6 +1,9 @@
 <template>
   <div>
     <section>
+      <button type="button" class="button" @click="writeUserData('edgarfo', 'Edgar','edgarfo1996@gmail.com', 'imageUrl')"></button>
+      <button type="button" class="button" @click="writeUserData('edgarfo2', 'Edgar2','edgarfo1996@gmail.com', 'imageUrl')"></button>
+      <button type="button" class="button" @click="readUserData()"></button>
       <div class="head-section">
         <h1>{{ title }}</h1>
       </div>
@@ -97,6 +100,11 @@
 <script>
 import superagent from 'superagent'
 import { linkToProduct } from './../methods/methods'
+import { getDatabase, ref, set, onValue, } from "firebase/database"
+
+
+
+
 
 export default {
   name: 'MainView',
@@ -142,6 +150,7 @@ export default {
     }
   },
   created() {
+    
     this.title = process.env.VUE_APP_ENV
     this.message = {
       title: '',
@@ -161,6 +170,23 @@ export default {
     this.getProducts()
   },
   methods: {
+
+    writeUserData(userId, name, email, imageUrl) {
+      const db = getDatabase()
+      set(ref(db, 'users/' + userId), {
+        username: name,
+        email: email,
+        profile_picture : imageUrl
+      });
+    },
+    readUserData (){
+      const db = getDatabase()
+      const starCountRef = ref(db, 'users/')
+      onValue(starCountRef, (snapshot) => {
+        const data = snapshot.val()
+        console.log(data)
+      })
+    },
     toggleCamera() {
       if(this.isCameraOpen) {
         this.isCameraOpen = false;

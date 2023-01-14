@@ -2,6 +2,9 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
+import { getDatabase, ref, onValue} from "firebase/database";
+import { getAuth } from 'firebase/auth'
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -18,6 +21,16 @@ const firebaseConfig = {
   measurementId: process.env.VUE_APP_MEASURE_ID
 };
 
+const auth = getAuth()
+
 export {
-    firebaseConfig, initializeApp, getAnalytics, getFirestore
+    firebaseConfig, 
+    initializeApp, 
+    getAnalytics, 
+    getFirestore,
+    getDatabase, 
+    ref, 
+    onValue,
+    auth
+
 }
