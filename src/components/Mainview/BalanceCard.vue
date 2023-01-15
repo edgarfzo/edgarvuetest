@@ -4,6 +4,7 @@
       max-width="368"
     >
       <v-card-item title="Florida">
+        Environment: 
         <template v-slot:subtitle>
           <v-icon
             icon="mdi-alert"
