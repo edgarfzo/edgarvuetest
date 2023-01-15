@@ -1,0 +1,24 @@
+import * as vue from 'vue';
+
+declare const VLocaleProvider: vue.DefineComponent<{
+    locale: StringConstructor;
+    fallbackLocale: StringConstructor;
+    messages: ObjectConstructor;
+    rtl: {
+        type: BooleanConstructor;
+        default: undefined;
+    };
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {}, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+    locale: StringConstructor;
+    fallbackLocale: StringConstructor;
+    messages: ObjectConstructor;
+    rtl: {
+        type: BooleanConstructor;
+        default: undefined;
+    };
+}>>, {
+    rtl: boolean;
+}>;
+declare type VLocaleProvider = InstanceType<typeof VLocaleProvider>;
+
+export { VLocaleProvider };

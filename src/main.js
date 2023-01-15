@@ -1,22 +1,24 @@
-import Vue from 'vue'
+/**
+ * main.js
+ *
+ * Bootstraps Vuetify and other plugins then mounts the App`
+ */
+
+// Components
 import App from './App.vue'
-import router from './router/router'
-import VueMeta from 'vue-meta';
-import axios from './plugins/axios'
-import  firebaseConfig  from './firebaseConfig'
+
+// Composables
+import { createApp } from 'vue'
 import { initializeApp } from "firebase/app"
+import firebaseConfig from './firebaseConfig'
 
+const appFirebase = initializeApp(firebaseConfig);
 
-Vue.use(VueMeta);
+// Plugins
+import { registerPlugins } from '@/plugins'
 
+const app = createApp(App)
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig)
+registerPlugins(app)
 
-
-Vue.config.productionTip = false
-
-new Vue({
-  router,
-  render: h => h(App)
-}).$mount('#app')
+app.mount('#app')

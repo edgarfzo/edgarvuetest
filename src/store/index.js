@@ -1,4 +1,4 @@
-import vue from 'vue'
+import Vue from 'vue'
 import Vuex from 'vue'
 import actions from './actions'
 import getters from './getters'
