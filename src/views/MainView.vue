@@ -1,106 +1,10 @@
 <template>
-  <div>
-    <section>
-      <button type="button" class="button" @click="writeUserData('edgarfo', 'Edgar','edgarfo1996@gmail.com', 'imageUrl')"></button>
-      <button type="button" class="button" @click="writeUserData('edgarfo2', 'Edgar2','edgarfo1996@gmail.com', 'imageUrl')"></button>
-      <button type="button" class="button" @click="readUserData()"></button>
-      <div class="head-section">
-        <h1>{{ title }}</h1>
-      </div>
-    </section>
-    <section>
-      <div class="message-section">
-        <div class="subtitle-field">
-          <div class="subtitle-header">
-            <div id="app" class="web-camera-container">
-  <div class="camera-button">
-      <button type="button" class="button is-rounded" :class="{ 'is-primary' : !isCameraOpen, 'is-danger' : isCameraOpen}" @click="toggleCamera">
-        <span v-if="!isCameraOpen">Open Camera</span>
-        <span v-else>Close Camera</span>
-    </button>
-  </div>
-  
-  <div v-show="isCameraOpen && isLoading" class="camera-loading">
-    <ul class="loader-circle">
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
-  </div>
-  
-  <div v-if="isCameraOpen" v-show="!isLoading" class="camera-box" :class="{ 'flash' : isShotPhoto }">
-    
-    <div class="camera-shutter" :class="{'flash' : isShotPhoto}"></div>
-      
-    <video v-show="!isPhotoTaken" ref="camera" :width="450" :height="337.5" autoplay></video>
-    
-    <canvas v-show="isPhotoTaken" id="photoTaken" ref="canvas" :width="450" :height="337.5"></canvas>
-  </div>
-  
-  <div v-if="isCameraOpen && !isLoading" class="camera-shoot">
-    <button type="button" class="button" @click="takePhoto">
-      <img src="https://img.icons8.com/material-outlined/50/000000/camera--v2.png">
-    </button>
-  </div>
-  
-  <div v-if="isPhotoTaken && isCameraOpen" class="camera-download">
-    <a id="downloadPhoto" download="my-photo.jpg" class="button" role="button" @click="downloadImage">
-      Download
-    </a>
-  </div>
-</div>
-            <h4>{{ sections.message }}</h4>
-          </div>
-          <div class="subtitle-body">
-            <h2>{{ message.title }}</h2>
-            <h3>{{ message.subtitle }}</h3>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section>
-      <div class="products-section">
-        <div class="product-field">
-          <div class="product-header">
-            <h4>{{ sections.products }}</h4>
-          </div>
-        </div>
-      </div>
-      <div class="products-row">
-        <div v-for="product in products" v-bind:key="product.id" class="product-item"
-          v-on:click="linkToProduct(product.id)">
-          <img :src="product.coverImage" alt="" />
-          <div class="overlay">
-            <p>{{ product.name }}</p>
-          </div>
-        </div>
-      </div>
-      <div class="products-footer">
-        <button v-on:click="linkToPortfolio()">{{ productAction.button }}</button>
-      </div>
-    </section>
-    <section>
-      <div class="contact-section">
-        <div class="contact-header">
-          <h4>{{ sections.contact }}</h4>
-        </div>
-        <h2>{{ contact.title }}</h2>
-        <h3>{{ contact.subtitle }}</h3>
-        <form>
-          <input type="text" v-model="form.name" placeholder="your name" />
-          <input type="text" v-model="form.email" placeholder="your email" />
-          <input type="text" v-model="form.message" placeholder="your message" />
-          <button v-on:click.prevent="postMessage()">{{ contact.button }}</button>
-        </form>
-      </div>
-    </section>
-  </div>
+<BalanceCard></BalanceCard>
 </template>
 
 <script>
-import superagent from 'superagent'
-import { linkToProduct } from './../methods/methods'
 import { getDatabase, ref, set, onValue, } from "firebase/database"
+import BalanceCard from '../components/Mainview/BalanceCard.vue'
 
 
 
@@ -108,66 +12,18 @@ import { getDatabase, ref, set, onValue, } from "firebase/database"
 
 export default {
   name: 'MainView',
+  components: {
+    BalanceCard
+  },
   data() {
     return {
-      isCameraOpen: false,
-      isPhotoTaken: false,
-      isShotPhoto: false,
-      isLoading: false,
-      link: '#',
-      title: '',
-      message: {
-        title: '',
-        subtitle: ''
-      },
-      products: [],
-      productAction: {
-        button: ''
-      },
-      contact: {
-        title: '',
-        subtitle: '',
-        button: ''
-      },
-      sections: {
-        message: '',
-        products: '',
-        contact: ''
-      },
-      form: {
-        name: '',
-        email: '',
-        message: ''
-      },
-      error: {
-        message: ''
-      },
-      subimittedMessage: {
-        name: '',
-        email: '',
-        message: ''
-      }
+
     }
   },
   created() {
     
     this.title = process.env.VUE_APP_ENV
-    this.message = {
-      title: '',
-      subtitle: 'this app shows capabilities of using vue in simple cases'
-    }
-    this.productAction.button = 'MORE PRODUCTS'
-    this.contact = {
-      title: 'Take a contact with us',
-      subtitle: '',
-      button: 'SEND MESSAGE'
-    }
-    this.sections = {
-      message: 'VUE APP',
-      products: 'Products',
-      contact: 'Contact'
-    }
-    this.getProducts()
+    
   },
   methods: {
 
@@ -187,104 +43,6 @@ export default {
         console.log(data)
       })
     },
-    toggleCamera() {
-      if(this.isCameraOpen) {
-        this.isCameraOpen = false;
-        this.isPhotoTaken = false;
-        this.isShotPhoto = false;
-        this.stopCameraStream();
-      } else {
-        this.isCameraOpen = true;
-        this.createCameraElement();
-      }
-    },
-    
-    createCameraElement() {
-      this.isLoading = true;
-      
-      const constraints = (window.constraints = {
-				audio: false,
-				video: true
-			});
-
-
-			navigator.mediaDevices
-				.getUserMedia(constraints)
-				.then(stream => {
-          this.isLoading = false;
-					this.$refs.camera.srcObject = stream;
-				})
-				.catch(error => {
-          this.isLoading = false;
-					alert("May the browser didn't support or there is some errors.");
-				});
-    },
-    
-    stopCameraStream() {
-      let tracks = this.$refs.camera.srcObject.getTracks();
-
-			tracks.forEach(track => {
-				track.stop();
-			});
-    },
-    
-    takePhoto() {
-      if(!this.isPhotoTaken) {
-        this.isShotPhoto = true;
-
-        const FLASH_TIMEOUT = 50;
-
-        setTimeout(() => {
-          this.isShotPhoto = false;
-        }, FLASH_TIMEOUT);
-      }
-      
-      this.isPhotoTaken = !this.isPhotoTaken;
-      
-      const context = this.$refs.canvas.getContext('2d');
-      context.drawImage(this.$refs.camera, 0, 0, 450, 337.5);
-    },
-    
-    downloadImage() {
-      const download = document.getElementById("downloadPhoto");
-      const canvas = document.getElementById("photoTaken").toDataURL("image/jpeg")
-    .replace("image/jpeg", "image/octet-stream");
-      download.setAttribute("href", canvas);
-    },
-    linkToPortfolio: function () {
-      this.$router.push({ name: 'portfolio' })
-    },
-    linkToProduct(item) {
-      linkToProduct(item, this)
-    },
-    getProducts() {
-      superagent.get('/assets/JSON/products.json')
-        .then((response) => {
-          this.products = response.body
-        })
-        .catch((error) => {
-          this.error.message = error
-        })
-    },
-    postMessage() {
-      if (this.form.name !== '' && this.form.email !== '' && this.form.message !== '') {
-        superagent.post('api/contact')
-          .set('Content-Type', 'application/json')
-          .send({
-            name: this.name,
-            email: this.email,
-            message: this.message
-          })
-          .then((response) => {
-            this.subimittedMessage.name = response.body.name
-            this.subimittedMessage.email = response.body.email
-            this.subimittedMessage.message = response.body.message
-          })
-          .catch((error) => {
-            this.error.message = error
-          })
-      }
-    }
   }
 }
 </script>
