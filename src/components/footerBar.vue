@@ -1,8 +1,6 @@
 <template>
   <div class="footer-section">
-    <a :href="links.facebook.value">{{ links.facebook.name }}</a>
-    <a :href="links.twitter.value">{{ links.twitter.name }}</a>
-    <a :href="links.linkedin.value">{{ links.linkedin.name }}</a>
+This is the footer
   </div>
 </template>
 
@@ -11,35 +9,10 @@ export default {
   name: 'footerBar',
   data () {
     return {
-      links: {
-        facebook: {
-          name: '',
-          value: ''
-        },
-        twitter: {
-          name: '',
-          value: ''
-        },
-        linkedin: {
-          name: '',
-          value: ''
-        }
-      }
     }
   },
   created () {
-    this.links.facebook = {
-      name: 'Facebook',
-      value: 'https://www.facebook.com/'
-    }
-    this.links.twitter = {
-      name: 'Twitter',
-      value: 'https://twitter.com/'
-    }
-    this.links.linkedin = {
-      name: 'Linkedn',
-      value: 'https://www.linkedin.com/'
-    }
+    
   }
 }
 </script>
