@@ -1,17 +1,7 @@
 <template>
-  <BalanceCard />
+  <HelloWorld />
 </template>
 
-<script>
-import BalanceCard from '@/components/Mainview/BalanceCard.vue'
-
-export default {
-name : 'Home',
-components: {
-  BalanceCard
-}
-
-}
-
-
+<script setup>
+  import HelloWorld from '@/components/HelloWorld.vue'
 </script>

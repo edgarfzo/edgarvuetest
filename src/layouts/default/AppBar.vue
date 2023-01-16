@@ -1,9 +1,9 @@
 <template>
   <v-app-bar flat>
     <v-app-bar-title>
-      <v-icon icon="mdi-circle-slice-4" />
+      <v-icon icon="mdi-circle-slice-6" />
 
-      Base Preset
+      Essentials Preset
     </v-app-bar-title>
   </v-app-bar>
 </template>
