@@ -1,7 +1,6 @@
 <template>
   <div id='nav'>
     <router-link to="/"> Home </router-link>
-    <router-link to="/register"> Register </router-link>
     <router-link to="/signin"> Login </router-link>
     <button @click="handleSignOut" v-if="isLoggedIn"> Sign Out</button>
   </div>
@@ -10,6 +9,7 @@
 
 <script>
 import{ getAuth, onAuthStateChanged, signOut} from 'firebase/auth'
+import { useAppStore } from './store/app'
   export default {
   name: 'app',
   data(){ 
@@ -36,7 +36,8 @@ import{ getAuth, onAuthStateChanged, signOut} from 'firebase/auth'
     handleSignOut() {
       let auth = getAuth()
       signOut(auth).then(()=>{
-        this.$router.push('/')
+        useAppStore().setCurrentUser(undefined)
+        this.$router.push('/signin')
       })}
   }
 

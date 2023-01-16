@@ -1,12 +1,11 @@
 // Composables
 import { createRouter, createWebHistory } from 'vue-router'
 import {getAuth, onAuthStateChanged} from 'firebase/auth'
+import { useAppStore } from '@/store/app'
 
 const routes = [
-  {path:'/' ,
-  redirect:'/home'},
-  { path: '/home',
-   component: () => import('../views/Home.vue'),
+  {path:'/' , redirect:'/home'},
+  { path: '/home', component: () => import('../views/Home.vue'),
   meta:{
     requiresAuth: true
   }},
@@ -19,28 +18,19 @@ const router = createRouter({
   routes,
 })
 
-const getCurrentUser = () => {
-  return new Promise((resolve, reject) => {
-    const removeListener = onAuthStateChanged(
-      getAuth(),
-      (user) => {
-        removeListener()
-        resolve(user)
-      },
-      reject
-    )
-  })
-}
 
 router.beforeEach(async(to, from, next) => {
-if(to.matched.some((record)=> record.meta.requiresAuth)) {
-  if(await getCurrentUser()){
-    next()
+  console.log(import.meta.env.VITE_APP_ENV)
+if(to.matched.some((record)=> record.meta.requiresAuth) && import.meta.env.VITE_APP_ENV!='DEV') {
+  if(useAppStore().getCurrentUser===undefined){
+    next('/signin')
   }
-}else 
+else 
 {
-  //alert("you don't have access!")
-  next('/signin')
+  next()
 }
-})
+}
+else{
+  next()
+}})
 export default router
