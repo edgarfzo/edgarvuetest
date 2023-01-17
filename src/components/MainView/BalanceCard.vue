@@ -1,114 +1,81 @@
 <template>
     <v-card
       class="mx-auto"
-      max-width="368"
+      max-width="1000"
+      height="500"
     >
-      <v-card-item title="Florida">
+      <v-card-item title="Balance Card">
         Environment: {{ environment }}
-        <template v-slot:subtitle>
-          <v-icon
-            icon="mdi-alert"
-            size="18"
-            color="error"
-            class="mr-1 pb-1"
-          ></v-icon>
-  
-          Extreme Weather Alert
-        </template>
+        <br>
+        <v-btn
+      :loading="loading"
+      :disabled="loading"
+      color="secondary"
+      @click="addCredit"
+    >
+      Add {{ amount }} $
+    </v-btn>
       </v-card-item>
   
       <v-card-text class="py-0">
         <v-row align="center" no-gutters>
+          Current Balance:
           <v-col
             class="text-h2"
             cols="6"
           >
-            64&deg;F
-          </v-col>
-  
-          <v-col cols="6" class="text-right">
-            <v-icon
-              color="error"
-              icon="mdi-weather-hurricane"
-              size="88"
-            ></v-icon>
+            {{ getCurrentBalance }} $
           </v-col>
         </v-row>
       </v-card-text>
-  
-      <div class="d-flex py-3 justify-space-between">
-        <v-list-item
-          density="compact"
-          prepend-icon="mdi-weather-windy"
-        >
-          <v-list-item-subtitle>123 km/h</v-list-item-subtitle>
-        </v-list-item>
-  
-        <v-list-item
-          density="compact"
-          prepend-icon="mdi-weather-pouring"
-        >
-          <v-list-item-subtitle>48%</v-list-item-subtitle>
-        </v-list-item>
-      </div>
-  
-      <v-expand-transition>
-        <div v-if="expand">
-          <div class="py-2">
-            <v-slider
-              v-model="time"
-              :max="6"
-              :step="1"
-              :ticks="labels"
-              class="mx-4"
-              color="primary"
-              density="compact"
-              hide-details
-              show-ticks="always"
-              thumb-size="10"
-            ></v-slider>
-          </div>
-  
-          <v-list class="bg-transparent">
-            <v-list-item
-              v-for="item in forecast"
-              :key="item.day"
-              :title="item.day"
-              :append-icon="item.icon"
-              :subtitle="item.temp"
-            >
-            </v-list-item>
-          </v-list>
-        </div>
-      </v-expand-transition>
-  
-      <v-divider></v-divider>
-  
-      <v-card-actions>
-        <v-btn @click="expand = !expand">
-          {{ !expand ? 'Full Report' : 'Hide Report' }}
-        </v-btn>
-      </v-card-actions>
+
     </v-card>
   </template>
 
   <script>
+import { getDatabase, ref, set, onValue  } from "firebase/database"
+import { useAppStore } from '@/store/app'
+
   export default {
     name: 'BalanceCard',
     data: () => ({
-      labels: { 0: 'SU', 1: 'MO', 2: 'TU', 3: 'WED', 4: 'TH', 5: 'FR', 6: 'SA' },
-      expand: false,
-      time: 0,
-      forecast: [
-        { day: 'Tuesday', icon: 'mdi-white-balance-sunny', temp: '24\xB0/12\xB0' },
-        { day: 'Wednesday', icon: 'mdi-white-balance-sunny', temp: '22\xB0/14\xB0' },
-        { day: 'Thursday', icon: 'mdi-cloud', temp: '25\xB0/15\xB0' },
-      ],
+      loading: false,
+      amount: 100000,
     }),
     computed: {
         environment(){
             return import.meta.env.VITE_APP_ENV
+        },
+        getCurrentBalance(){
+          const db = getDatabase()
+          var data = ''
+          const timeChange = ref(db, 'transactions/transactionDate')
+          onValue(timeChange, (snapshot) => {
+            data = snapshot.val()
+            console.log(snapshot.val())
+          
+          })
+          return data
+          }
+          
+    },
+    methods: {
+      load () {
+        this.loading = true
+        setTimeout(() => (this.loading = false), 3000)
+      },
+      addCredit () {
+        const db = getDatabase()
+        if(!useAppStore().getCurrentUser.displayName) {
+         return  alert("Please LogIn")
         }
+        set(ref(db, 'transactions/'), {
+          name: useAppStore().getCurrentUser.displayName,
+          transactionDate: new Date().toISOString(),
+          amount: this.amount
+            });
+
+      }
     }
   }
 </script>

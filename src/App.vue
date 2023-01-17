@@ -18,8 +18,9 @@ import { useAppStore } from './store/app'
     }
     },
   components: {  },
-  metaInfo: {
-      title: import.meta.env.VUE_APP_ENV
+  created () {
+      const title = 'Edgar App in ' + import.meta.env.VITE_APP_ENV
+      document.title = title
     },
   beforeMount() {
     let auth = getAuth()
@@ -36,7 +37,7 @@ import { useAppStore } from './store/app'
     handleSignOut() {
       let auth = getAuth()
       signOut(auth).then(()=>{
-        useAppStore().setCurrentUser(undefined)
+        useAppStore().setCurrentUser('')
         this.$router.push('/signin')
       })}
   }

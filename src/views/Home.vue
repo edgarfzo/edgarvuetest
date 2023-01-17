@@ -1,13 +1,15 @@
 <template>
-  <p>User : {{ getUser }}</p>
+  <p>User : {{getUser.name}}</p>
+  <p>Email : {{getUser.email}}</p>
+  <p>Last Login : {{getUser.lastLogin}}</p>
   <BalanceCard/>
   <HelloWorld/>
 </template>
 
 <script>
-  import HelloWorld from '@/components/HelloWorld.vue'
-import BalanceCard from '@/components/MainView/BalanceCard.vue';
-  import { useAppStore } from '@/store/app';
+import HelloWorld from '@/components/HelloWorld.vue'
+import BalanceCard from '@/components/MainView/BalanceCard.vue'
+import { useAppStore } from '@/store/app'
 
   export default{
     name: 'Home',
@@ -17,7 +19,11 @@ import BalanceCard from '@/components/MainView/BalanceCard.vue';
 },
     computed:{
       getUser(){
-        const user = useAppStore().getCurrentUser
+        const user = {
+          name: useAppStore().getCurrentUser.displayName,
+          email: useAppStore().getCurrentUser.email,
+          lastLogin: useAppStore().getCurrentUser.metadata.lastSignInTime,
+        }
         return user
       }
     }
