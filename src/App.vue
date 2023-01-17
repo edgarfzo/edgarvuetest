@@ -37,7 +37,7 @@ import { useAppStore } from './store/app'
     handleSignOut() {
       let auth = getAuth()
       signOut(auth).then(()=>{
-        useAppStore().setCurrentUser(undefined)
+        useAppStore().setCurrentUser('')
         this.$router.push('/signin')
       })}
   }

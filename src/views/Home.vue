@@ -7,9 +7,9 @@
 </template>
 
 <script>
-  import HelloWorld from '@/components/HelloWorld.vue'
-import BalanceCard from '@/components/MainView/BalanceCard.vue';
-  import { useAppStore } from '@/store/app';
+import HelloWorld from '@/components/HelloWorld.vue'
+import BalanceCard from '@/components/MainView/BalanceCard.vue'
+import { useAppStore } from '@/store/app'
 
   export default{
     name: 'Home',

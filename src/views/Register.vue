@@ -37,7 +37,6 @@ export default {
             const provider = new GoogleAuthProvider
             signInWithPopup(getAuth(), provider)
             .then((result) =>{
-                console.log(result.user)
                 this.$router.push('/')
             })
             .catch((error)=>{

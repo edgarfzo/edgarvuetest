@@ -1,6 +1,5 @@
 // Composables
 import { createRouter, createWebHistory } from 'vue-router'
-import {getAuth, onAuthStateChanged} from 'firebase/auth'
 import { useAppStore } from '@/store/app'
 
 const routes = [
@@ -20,7 +19,6 @@ const router = createRouter({
 
 
 router.beforeEach(async(to, from, next) => {
-  console.log(import.meta.env.VITE_APP_ENV)
 if(to.matched.some((record)=> record.meta.requiresAuth) && import.meta.env.VITE_APP_ENV!='DEV') {
   if(useAppStore().getCurrentUser===undefined){
     next('/signin')
