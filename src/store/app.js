@@ -15,6 +15,7 @@ export const useAppStore = defineStore('app', {
     setCurrentUser(user){
       this.currentUser = user
     }
+    
   },
   getters: {
     getCurrentUser: (state) => state.currentUser,

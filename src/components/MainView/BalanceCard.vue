@@ -49,10 +49,11 @@ import { useAppStore } from '@/store/app'
         getCurrentBalance(){
           const db = getDatabase()
           var data = ''
-          const timeChange = ref(db, 'transactions/' +'/starCount');
-          onValue(ref(db, '/transactions'), (snapshot) => {
+          const timeChange = ref(db, 'transactions/transactionDate')
+          onValue(timeChange, (snapshot) => {
+            data = snapshot.val()
             console.log(snapshot.val())
-          data = (snapshot.val().transactionDate)
+          
           })
           return data
           }
