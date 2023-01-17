@@ -1,8 +1,8 @@
 <template>
     <v-card
       class="mx-auto"
-      max-width="500"
-      height="200"
+      max-width="1000"
+      height="500"
     >
       <v-card-item title="Balance Card">
         Environment: {{ environment }}
@@ -40,7 +40,7 @@ import { useAppStore } from '@/store/app'
     name: 'BalanceCard',
     data: () => ({
       loading: false,
-      amount: 10000,
+      amount: 100000,
     }),
     computed: {
         environment(){
@@ -49,9 +49,10 @@ import { useAppStore } from '@/store/app'
         getCurrentBalance(){
           const db = getDatabase()
           var data = ''
+          const timeChange = ref(db, 'transactions/' +'/starCount');
           onValue(ref(db, '/transactions'), (snapshot) => {
             console.log(snapshot.val())
-          data = (snapshot.val().amount)
+          data = (snapshot.val().transactionDate)
           })
           return data
           }
