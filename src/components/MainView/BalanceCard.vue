@@ -3,18 +3,20 @@
       class="mx-auto"
       max-width="368"
     >
-      <v-card-item title="Florida">
+      <v-card-item title="Balance Card">
         Environment: {{ environment }}
-        <template v-slot:subtitle>
-          <v-icon
-            icon="mdi-alert"
-            size="18"
-            color="error"
-            class="mr-1 pb-1"
-          ></v-icon>
-  
-          Extreme Weather Alert
-        </template>
+
+
+        <v-btn
+      :loading="loading"
+      :disabled="loading"
+      color="secondary"
+      
+    >
+      Add 10K $
+    </v-btn>
+
+
       </v-card-item>
   
       <v-card-text class="py-0">
@@ -51,44 +53,7 @@
           <v-list-item-subtitle>48%</v-list-item-subtitle>
         </v-list-item>
       </div>
-  
-      <v-expand-transition>
-        <div v-if="expand">
-          <div class="py-2">
-            <v-slider
-              v-model="time"
-              :max="6"
-              :step="1"
-              :ticks="labels"
-              class="mx-4"
-              color="primary"
-              density="compact"
-              hide-details
-              show-ticks="always"
-              thumb-size="10"
-            ></v-slider>
-          </div>
-  
-          <v-list class="bg-transparent">
-            <v-list-item
-              v-for="item in forecast"
-              :key="item.day"
-              :title="item.day"
-              :append-icon="item.icon"
-              :subtitle="item.temp"
-            >
-            </v-list-item>
-          </v-list>
-        </div>
-      </v-expand-transition>
-  
-      <v-divider></v-divider>
-  
-      <v-card-actions>
-        <v-btn @click="expand = !expand">
-          {{ !expand ? 'Full Report' : 'Hide Report' }}
-        </v-btn>
-      </v-card-actions>
+
     </v-card>
   </template>
 
@@ -96,6 +61,7 @@
   export default {
     name: 'BalanceCard',
     data: () => ({
+      loading: [],
       labels: { 0: 'SU', 1: 'MO', 2: 'TU', 3: 'WED', 4: 'TH', 5: 'FR', 6: 'SA' },
       expand: false,
       time: 0,
@@ -109,6 +75,12 @@
         environment(){
             return import.meta.env.VITE_APP_ENV
         }
+    },
+    methods: {
+      load () {
+        this.loading= true
+        setTimeout(() => (this.loading = false), 3000)
+      },
     }
   }
 </script>

@@ -1,5 +1,7 @@
 <template>
-  <p>User : {{ getUser }}</p>
+  <p>User : {{getUser.name}}</p>
+  <p>Email : {{getUser.email}}</p>
+  <p>Last Login : {{getUser.lastLogin}}</p>
   <BalanceCard/>
   <HelloWorld/>
 </template>
@@ -17,7 +19,11 @@ import BalanceCard from '@/components/MainView/BalanceCard.vue';
 },
     computed:{
       getUser(){
-        const user = useAppStore().getCurrentUser
+        const user = {
+          name: useAppStore().getCurrentUser.displayName,
+          email: useAppStore().getCurrentUser.email,
+          lastLogin: useAppStore().getCurrentUser.metadata.lastSignInTime,
+        }
         return user
       }
     }

@@ -11,6 +11,7 @@ export const useAppStore = defineStore('app', {
     }
   },
   getters: {
-    getCurrentUser: (state) => state.currentUser
+    getCurrentUser: (state) => state.currentUser,
+
   }
 })
