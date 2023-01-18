@@ -14,7 +14,7 @@ import { useAppStore } from './store/app'
   name: 'app',
   data(){ 
     return {
-        isLoggedIn: false,
+        isLoggedIn: useAppStore().getisLoggedIn,
     }
     },
   components: {  },
@@ -26,10 +26,10 @@ import { useAppStore } from './store/app'
     let auth = getAuth()
     onAuthStateChanged(auth, (user)=>{
       if (user){
-        this.isLoggedIn = true
+        useAppStore().setLoggedIn(true)
       }
       else {
-        this.isLoggedIn = false
+        useAppStore().setLoggedIn(false)
       }
     })
   },
@@ -37,7 +37,14 @@ import { useAppStore } from './store/app'
     handleSignOut() {
       let auth = getAuth()
       signOut(auth).then(()=>{
-        useAppStore().setCurrentUser('')
+        useAppStore().setLoggedIn(false)
+        useAppStore().setCurrentUser({
+      displayName: '',
+      email:'',
+      metadata: {
+        lastSignInTime: ''
+      }
+    })
         this.$router.push('/signin')
       })}
   }

@@ -8,7 +8,6 @@ const routes = [
   meta:{
     requiresAuth: true
   }},
-  { path: '/register', component: () => import('../views/Register.vue') },
   { path: '/signin', component: () => import('../views/SignIn.vue') },
 ]
 
@@ -17,10 +16,10 @@ const router = createRouter({
   routes,
 })
 
-
 router.beforeEach(async(to, from, next) => {
 if(to.matched.some((record)=> record.meta.requiresAuth) && import.meta.env.VITE_APP_ENV!='DEV') {
-  if(useAppStore().getCurrentUser.displayName===''){
+  console.log(useAppStore().getisLoggedIn)
+  if(!useAppStore().getisLoggedIn){
     next('/signin')
   }
 else 

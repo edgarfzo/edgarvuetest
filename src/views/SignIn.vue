@@ -48,6 +48,7 @@ export default {
             const provider = new GoogleAuthProvider
             signInWithPopup(getAuth(), provider)
             .then((result) =>{
+                useAppStore().setLoggedIn(true)
                 useAppStore().setCurrentUser(result.user)
                 this.$router.push('/home')
             })
