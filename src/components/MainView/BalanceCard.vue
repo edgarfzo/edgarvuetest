@@ -33,7 +33,7 @@
   </template>
 
   <script>
-import { getDatabase, ref, set, onValue  } from "firebase/database"
+import { getDatabase, ref, set, onValue, push  } from "firebase/database"
 import { useAppStore } from '@/store/app'
 
   export default {
@@ -48,12 +48,15 @@ import { useAppStore } from '@/store/app'
         },
         getCurrentBalance(){
           const db = getDatabase()
-          var data = ''
-          const timeChange = ref(db, 'transactions/transactionDate')
-          onValue(timeChange, (snapshot) => {
-            data = snapshot.val()
-            console.log(snapshot.val())
-          
+          var totalAmount = 0
+          var data = []
+          const balanceChange = ref(db, 'transactions')
+          onValue(balanceChange, (snapshot) => {
+          const transactions = snapshot.val()
+          let keys = Object.keys(transactions)
+          console.log(transactions)
+          keys.forEach(el => data.push(transactions[el].amount))
+          data = data.reduce((accumulator, currentValue) => accumulator + currentValue)
           })
           return data
           }
@@ -65,16 +68,16 @@ import { useAppStore } from '@/store/app'
         setTimeout(() => (this.loading = false), 3000)
       },
       addCredit () {
-        const db = getDatabase()
         if(!useAppStore().getCurrentUser.displayName) {
          return  alert("Please LogIn")
         }
-        set(ref(db, 'transactions/'), {
+        const db = getDatabase()
+        const transactionsRef = ref(db, 'transactions/')
+          push(transactionsRef, {
           name: useAppStore().getCurrentUser.displayName,
           transactionDate: new Date().toISOString(),
           amount: this.amount
-            });
-
+          })
       }
     }
   }
