@@ -14,7 +14,6 @@ import { useAppStore } from './store/app'
   name: 'app',
   data(){ 
     return {
-        isLoggedIn: useAppStore().getisLoggedIn,
     }
     },
   components: {  },
@@ -26,25 +25,23 @@ import { useAppStore } from './store/app'
     let auth = getAuth()
     onAuthStateChanged(auth, (user)=>{
       if (user){
-        useAppStore().setLoggedIn(true)
+        useAppStore().$patch({isLoggedIn: true})
       }
       else {
-        useAppStore().setLoggedIn(false)
+        useAppStore().$patch({isLoggedIn: false})
       }
     })
+  },
+  computed: {
+    isLoggedin(){
+      return useAppStore().getisLoggedIn
+    }
   },
   methods: {
     handleSignOut() {
       let auth = getAuth()
       signOut(auth).then(()=>{
-        useAppStore().setLoggedIn(false)
-        useAppStore().setCurrentUser({
-      displayName: '',
-      email:'',
-      metadata: {
-        lastSignInTime: ''
-      }
-    })
+        useAppStore().$reset
         this.$router.push('/signin')
       })}
   }
