@@ -38,10 +38,8 @@ import { useAppStore } from '@/store/app'
 
   export default {
     name: 'BalanceCard',
-    props: {
-      balance: Number
-    },
     data: () => ({
+      balance: useAppStore().currentBalance,
       loading: false,
       amount: 100000,
     }),
@@ -56,6 +54,7 @@ import { useAppStore } from '@/store/app'
         setTimeout(() => (this.loading = false), 3000)
       },
       addCredit () {
+        console.log(useAppStore().currentBalance)
         if(!useAppStore().getCurrentUser.displayName) {
          return  alert("Please LogIn")
         }
@@ -66,7 +65,7 @@ import { useAppStore } from '@/store/app'
           transactionDate: new Date().toISOString(),
           amount: this.amount
           })
-      }
-    }
+      }     
+    },
   }
 </script>
