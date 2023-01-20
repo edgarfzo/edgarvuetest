@@ -11,7 +11,8 @@ export const useAppStore = defineStore('app', {
         lastSignInTime: ''
       }
     },
-    currentBalance: ''
+    currentBalance: '',
+    googleStock: ''
   }),
   actions: {
     setCurrentUser(state, user){
@@ -19,12 +20,13 @@ export const useAppStore = defineStore('app', {
     },
     setCurrentBalance(state, balance){
       state.currentBalance = balance
-    }
-  },
-  getters: {
-    getisLoggedIn: (state) => state.isLoggedIn,
-    getCurrentUser: (state) => state.currentUser,
-    getCurrentBalance: (state) => state.currentBalance
-  }
+    },
+  //   setGoogleStock(keys){
+  //     console.log('axios')
+  //     axios.get(`${import.meta.env.VITE_APP_DB_URL}/transactions/${keys}.json`).then((response) => {
+  //       console.log(response)
+  //   })
+  // },
+}
 })
 
