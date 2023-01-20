@@ -1,6 +1,6 @@
 <template>
   <div id='nav'>
-    <router-link to="/"> Home </router-link>
+    <router-link to="/home"> Home </router-link>
     <router-link to="/signin"> Login </router-link>
     <button @click="handleSignOut" v-if="isLoggedIn"> Sign Out</button>
   </div>
@@ -10,6 +10,7 @@
 <script>
 import{ getAuth, onAuthStateChanged, signOut} from 'firebase/auth'
 import { useAppStore } from './store/app'
+import { checkAuth } from './firebase-utils'
   export default {
   name: 'app',
   data(){ 
@@ -20,22 +21,13 @@ import { useAppStore } from './store/app'
   created () {
       const title = 'Edgar App in ' + import.meta.env.VITE_APP_ENV
       document.title = title
-      console.log('store reseted')
-      useAppStore().$reset
+      // console.log('store reseted')
+      // useAppStore().$reset
     },
-  beforeMount() {
-    let auth = getAuth()
-    onAuthStateChanged(auth, (user)=>{
-      if (user){
-        useAppStore().$patch({isLoggedIn: true})
-      }
-      else {
-        useAppStore().$patch({isLoggedIn: false})
-      }
-    })
-  },
+
   computed: {
     isLoggedIn(){
+      checkAuth()
       return useAppStore().isLoggedIn
     }
   },
