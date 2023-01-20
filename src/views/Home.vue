@@ -3,7 +3,6 @@
   <p>Email : {{getUser.email}}</p>
   <p>Last Login : {{getUser.lastLogin}}</p>
   <BalanceCard/>
-  <HelloWorld/>
 </template>
 
 <script>
@@ -14,9 +13,9 @@ import { useAppStore } from '@/store/app'
   export default{
     name: 'Home',
     components: {
-    HelloWorld,
     BalanceCard
-},
+}, data: () => ({
+}),
     computed:{
       getUser(){
         const user = {
@@ -25,9 +24,7 @@ import { useAppStore } from '@/store/app'
           lastLogin: useAppStore().getCurrentUser.metadata.lastSignInTime,
         }
         return user
-      }
-    }
-
-
+      },
+    },
   }
 </script>

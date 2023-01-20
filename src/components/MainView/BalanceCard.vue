@@ -24,7 +24,7 @@
             class="text-h2"
             cols="6"
           >
-            {{ getCurrentBalance }} $
+            {{ balance }} $
           </v-col>
         </v-row>
       </v-card-text>
@@ -39,28 +39,14 @@ import { useAppStore } from '@/store/app'
   export default {
     name: 'BalanceCard',
     data: () => ({
+      balance: useAppStore().currentBalance,
       loading: false,
       amount: 100000,
     }),
     computed: {
         environment(){
             return import.meta.env.VITE_APP_ENV
-        },
-        getCurrentBalance(){
-          const db = getDatabase()
-          var totalAmount = 0
-          var data = []
-          const balanceChange = ref(db, 'transactions')
-          onValue(balanceChange, (snapshot) => {
-          const transactions = snapshot.val()
-          let keys = Object.keys(transactions)
-          console.log(transactions)
-          keys.forEach(el => data.push(transactions[el].amount))
-          data = data.reduce((accumulator, currentValue) => accumulator + currentValue)
-          })
-          return data
-          }
-          
+        },       
     },
     methods: {
       load () {
@@ -68,6 +54,7 @@ import { useAppStore } from '@/store/app'
         setTimeout(() => (this.loading = false), 3000)
       },
       addCredit () {
+        console.log(useAppStore().currentBalance)
         if(!useAppStore().getCurrentUser.displayName) {
          return  alert("Please LogIn")
         }
@@ -78,7 +65,7 @@ import { useAppStore } from '@/store/app'
           transactionDate: new Date().toISOString(),
           amount: this.amount
           })
-      }
-    }
+      }     
+    },
   }
 </script>

@@ -9,6 +9,7 @@
 <script>
 import {getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup} from 'firebase/auth'
 import { useAppStore } from '@/store/app'
+import { getBalance } from '@/firebase-utils'
 
 export default {
     name: 'Register',
@@ -48,7 +49,9 @@ export default {
             const provider = new GoogleAuthProvider
             signInWithPopup(getAuth(), provider)
             .then((result) =>{
-                useAppStore().setCurrentUser(result.user)
+                getBalance()
+                useAppStore().$patch({isLoggedIn: true})
+                useAppStore().$patch({currentUser: result.user})
                 this.$router.push('/home')
             })
             .catch((error)=>{
