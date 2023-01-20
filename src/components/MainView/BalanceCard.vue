@@ -35,18 +35,21 @@
   <script>
 import { getDatabase, ref, set, onValue, push  } from "firebase/database"
 import { useAppStore } from '@/store/app'
+import { getBalance } from "@/firebase-utils"
 
   export default {
     name: 'BalanceCard',
     data: () => ({
-      balance: useAppStore().currentBalance,
       loading: false,
       amount: 100000,
     }),
     computed: {
         environment(){
             return import.meta.env.VITE_APP_ENV
-        },       
+        },  
+        balance(){
+          return useAppStore().currentBalance
+        }     
     },
     methods: {
       load () {
@@ -65,7 +68,11 @@ import { useAppStore } from '@/store/app'
           transactionDate: new Date().toISOString(),
           amount: this.amount
           })
+          getBalance()
       }     
     },
+    watch(){
+      useAppStore().currentBalance()
+    }
   }
 </script>

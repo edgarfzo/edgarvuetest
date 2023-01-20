@@ -20,6 +20,8 @@ import { useAppStore } from './store/app'
   created () {
       const title = 'Edgar App in ' + import.meta.env.VITE_APP_ENV
       document.title = title
+      console.log('store reseted')
+      useAppStore().$reset
     },
   beforeMount() {
     let auth = getAuth()
@@ -33,8 +35,8 @@ import { useAppStore } from './store/app'
     })
   },
   computed: {
-    isLoggedin(){
-      return useAppStore().getisLoggedIn
+    isLoggedIn(){
+      return useAppStore().isLoggedIn
     }
   },
   methods: {
