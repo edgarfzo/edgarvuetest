@@ -19,9 +19,9 @@ import { useAppStore } from '@/store/app'
     computed:{
       getUser(){
         const user = {
-          name: useAppStore().getCurrentUser.displayName,
-          email: useAppStore().getCurrentUser.email,
-          lastLogin: useAppStore().getCurrentUser.metadata.lastSignInTime,
+          name: useAppStore().currentUser.displayName,
+          email: useAppStore().currentUser.email,
+          lastLogin: useAppStore().currentUser.metadata.lastSignInTime,
         }
         return user
       },
