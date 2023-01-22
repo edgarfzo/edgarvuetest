@@ -25,6 +25,9 @@ export default {
     methods: {
         signInWithGoogle(){
             const provider = new GoogleAuthProvider
+            provider.setCustomParameters({
+            prompt: 'select_account'
+            })
             signInWithPopup(getAuth(), provider)
             .then((result) =>{
                 getBalance()
