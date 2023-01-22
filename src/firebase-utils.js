@@ -20,10 +20,15 @@ export const getBalance = () => {
       if(transactions[el].name===useAppStore().currentUser.displayName)
        {data.push(transactions[el].amount)}
       })
+    if (!data.length==0) {
     data = data.reduce((accumulator, currentValue) => accumulator + currentValue)
-    console.log('data', data)
     useAppStore().$patch({currentBalance: data})
-    useAppStore().$patch({isLoadingBalance: false})
+    useAppStore().$patch({isLoadingBalance: false})}
+    else {
+      data = 0
+      useAppStore().$patch({currentBalance: data})
+      useAppStore().$patch({isLoadingBalance: false})
+    }
     })}
 }
 
