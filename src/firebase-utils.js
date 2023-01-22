@@ -4,6 +4,12 @@ import { useAppStore } from '@/store/app'
 
 export const getBalance = () => {
   useAppStore().$patch({isLoadingBalance: true})
+ if(!useAppStore().isLoggedIn){
+  useAppStore().$patch({isLoadingBalance: false})
+  return ''
+}
+ else{
+  useAppStore().$patch({isLoadingBalance: true})
     const db = getDatabase()
     var data = []
     const balanceChange = ref(db, 'transactions')
@@ -15,7 +21,7 @@ export const getBalance = () => {
     console.log('data', data)
     useAppStore().$patch({currentBalance: data})
     useAppStore().$patch({isLoadingBalance: false})
-    })
+    })}
 }
 
 export const getCurrentUser = () => {

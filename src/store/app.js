@@ -1,5 +1,5 @@
-
 import { defineStore } from 'pinia'
+import axios from 'axios'
 
 export const useAppStore = defineStore('app', {
   state: () => ({
@@ -12,8 +12,8 @@ export const useAppStore = defineStore('app', {
       }
     },
     currentBalance: '',
-    isLoadingBalance: true
-
+    isLoadingBalance: true,
+    stockData: ''
   }),
   actions: {
     setCurrentUser(state, user){
@@ -21,12 +21,18 @@ export const useAppStore = defineStore('app', {
     },
     setCurrentBalance(state, balance){
       state.currentBalance = balance
-    }
+    },
+    setTransactionsData(keys){
+      axios.get(`${import.meta.env.VITE_APP_DB_URL}/transactions/${keys}.json`).then((response) => {
+        console.log(response)
+    })
   },
-  getters: {
-    getisLoggedIn: (state) => state.isLoggedIn,
-    getCurrentUser: (state) => state.currentUser,
-    getCurrentBalance: (state) => state.currentBalance
-  }
+  setStockData(state, simbol){
+    axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=UNTV74N295P1JUJJ`).then((response) => {
+      console.log(response)
+  })
+},
+}
 })
+
 
