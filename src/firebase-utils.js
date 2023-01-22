@@ -16,7 +16,10 @@ export const getBalance = () => {
     onValue( balanceChange, (snapshot) => {
     const transactions = snapshot.val()
     let keys = Object.keys(transactions)
-    keys.forEach(el => data.push(transactions[el].amount))
+    keys.forEach(el => {
+      if(transactions[el].name===useAppStore().currentUser.displayName)
+       {data.push(transactions[el].amount)}
+      })
     data = data.reduce((accumulator, currentValue) => accumulator + currentValue)
     console.log('data', data)
     useAppStore().$patch({currentBalance: data})

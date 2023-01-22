@@ -67,14 +67,14 @@ import { Skeletor } from 'vue-skeletor';
         setTimeout(() => (this.loading = false), 3000)
       },
       addCredit () {
-        console.log(useAppStore().currentBalance)
-        if(!useAppStore().getCurrentUser.displayName) {
+        console.log(useAppStore().currentUser.displayName)
+        if(!useAppStore().currentUser.displayName) {
          return  alert("Please LogIn")
         }
         const db = getDatabase()
         const transactionsRef = ref(db, 'transactions/')
           push(transactionsRef, {
-          name: useAppStore().getCurrentUser.displayName,
+          name: useAppStore().currentUser.displayName,
           transactionDate: new Date().toISOString(),
           amount: this.amount
           })
