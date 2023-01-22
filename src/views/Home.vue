@@ -2,13 +2,15 @@
   <p>User : {{getUser.name}}</p>
   <p>Email : {{getUser.email}}</p>
   <p>Last Login : {{getUser.lastLogin}}</p>
-  <BalanceCard/>
+  <BalanceCard 
+  :isLoadingBalance="isLoadingBalance" >
+  </BalanceCard>
 </template>
 
 <script>
-import HelloWorld from '@/components/HelloWorld.vue'
 import BalanceCard from '@/components/MainView/BalanceCard.vue'
 import { useAppStore } from '@/store/app'
+import { getBalance } from "@/firebase-utils"
 
   export default{
     name: 'Home',
@@ -25,6 +27,12 @@ import { useAppStore } from '@/store/app'
         }
         return user
       },
+      isLoadingBalance(){
+        return useAppStore().isLoadingBalance
+      }
     },
+    created(){
+      getBalance()
+    }
   }
 </script>

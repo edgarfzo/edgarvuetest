@@ -1,5 +1,7 @@
 <template>
-    <v-card
+
+    <Skeletor v-if="isLoadingBalance" height="500"/>
+    <v-card v-else
       class="mx-auto"
       max-width="1000"
       height="500"
@@ -36,9 +38,17 @@
 import { getDatabase, ref, set, onValue, push  } from "firebase/database"
 import { useAppStore } from '@/store/app'
 import { getBalance } from "@/firebase-utils"
+import 'vue-skeletor/dist/vue-skeletor.css'
+import { Skeletor } from 'vue-skeletor';
 
   export default {
     name: 'BalanceCard',
+    props: {
+      isLoadingBalance: true
+    },
+    components: {
+      Skeletor
+    },
     data: () => ({
       loading: false,
       amount: 100000,

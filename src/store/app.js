@@ -11,7 +11,9 @@ export const useAppStore = defineStore('app', {
         lastSignInTime: ''
       }
     },
-    currentBalance: ''
+    currentBalance: '',
+    isLoadingBalance: true
+
   }),
   actions: {
     setCurrentUser(state, user){

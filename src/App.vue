@@ -20,14 +20,14 @@ import { useAppStore } from './store/app'
   created () {
       const title = 'Edgar App in ' + import.meta.env.VITE_APP_ENV
       document.title = title
-      console.log('store reseted')
-      useAppStore().$reset
+      
     },
   beforeMount() {
     let auth = getAuth()
     onAuthStateChanged(auth, (user)=>{
       if (user){
         useAppStore().$patch({isLoggedIn: true})
+        useAppStore().$patch({currentUser: user})
       }
       else {
         useAppStore().$patch({isLoggedIn: false})
