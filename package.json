@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@mdi/font": "7.0.96",
+    "airplane": "^0.2.30",
     "axios": "^1.2.3",
     "core-js": "^3.8.3",
     "firebase": "^9.15.0",
@@ -23,6 +24,7 @@
     "webfontloader": "^1.0.0"
   },
   "devDependencies": {
+    "@types/node": "^18.11.18",
     "@vitejs/plugin-vue": "^3.0.3",
     "eslint": "^8.22.0",
     "eslint-plugin-vue": "^9.3.0",
