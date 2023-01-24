@@ -1,10 +1,10 @@
 <template>
 
-    <Skeletor v-if="isLoadingBalance" height="500"/>
+    <Skeletor v-if="isLoadingBalance" height="200"/>
     <v-card v-else
       class="mx-auto"
       max-width="1000"
-      height="500"
+      height="200"
     >
       <v-card-item title="Balance Card">
         Environment: {{ environment }}

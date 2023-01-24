@@ -5,12 +5,12 @@
   <BalanceCard 
   :isLoadingBalance="isLoadingBalance" >
   </BalanceCard>
-  <GoogleCard/>
+  <StockCard/>
 </template>
 
 <script>
 import BalanceCard from '@/components/MainView/BalanceCard.vue'
-import GoogleCard from '@/components/MainView/GoogleCard.vue'
+import StockCard from '@/components/MainView/StockCard.vue'
 import { useAppStore } from '@/store/app'
 import { getBalance } from "@/firebase-utils"
 
@@ -18,7 +18,7 @@ import { getBalance } from "@/firebase-utils"
     name: 'Home',
     components: {
     BalanceCard,
-    GoogleCard
+    StockCard
 }, data: () => ({
 }),
     computed:{
