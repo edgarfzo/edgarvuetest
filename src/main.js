@@ -9,6 +9,7 @@ import App from './App.vue'
 
 // Composables
 import { createApp } from 'vue'
+import {h} from 'vue'
 
 // Plugins
 import { registerPlugins } from '@/plugins'
@@ -35,4 +36,5 @@ initializeApp(firebaseConfig);
 
 const app = createApp(App)
 registerPlugins(app)
+
 app.mount('#app')

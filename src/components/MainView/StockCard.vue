@@ -6,31 +6,8 @@
       max-width="1000"
       height="500"
     >
-      <v-card-item title="Balance Card">
-        Environment: {{ environment }}
-        <br>
-        <v-btn
-      :loading="loading"
-      :disabled="loading"
-      color="secondary"
-      @click="addCredit"
-    >
-      Add {{ amount }} $
-    </v-btn>
-      </v-card-item>
-  
-      <v-card-text class="py-0">
-        <v-row align="center" no-gutters>
-          Current Balance:
-          <v-col
-            class="text-h2"
-            cols="6"
-          >
-            {{ balance }} $
-          </v-col>
-        </v-row>
-      </v-card-text>
-
+    <v-card-item title="Stock Card"/>
+    <StockGraph/>
     </v-card>
   </template>
 
@@ -39,7 +16,9 @@ import { getDatabase, ref, set, onValue, push  } from "firebase/database"
 import { useAppStore } from '@/store/app'
 import { getBalance } from "@/firebase-utils"
 import 'vue-skeletor/dist/vue-skeletor.css'
-import { Skeletor } from 'vue-skeletor';
+import { Skeletor } from 'vue-skeletor'
+import  StockGraph from '@/components/MainView/StockGraph/StockGraph.vue'
+
 
   export default {
     name: 'BalanceCard',
@@ -47,7 +26,8 @@ import { Skeletor } from 'vue-skeletor';
       isLoadingBalance: true
     },
     components: {
-      Skeletor
+      Skeletor,
+      StockGraph
     },
     data: () => ({
       loading: false,

@@ -4,6 +4,7 @@ async function postData (key:string, object:Object){
 	const response = await axios.put(`https://test-e4100-default-rtdb.europe-west1.firebasedatabase.app/IBM/${key}.json`,
 	object
 	)
+	console.log(response.data)
 }
 
 function resultHandling (object:Object, interval:string){
@@ -30,8 +31,6 @@ export default async function getStockData () {
 			},
 		  },
 		)
-		//console.log(JSON.stringify(data['Time Series (30min)'], null, 4))
-
 		const {key, lastValue} = resultHandling(data, interval)
 		postData(key, lastValue)
 		// 👇️ "response status is: 200"
