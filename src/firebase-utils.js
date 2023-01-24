@@ -40,3 +40,32 @@ export const getCurrentUser = () => {
     }, reject);
   })
 }
+
+export const getStockData = (symbol) => {
+  useAppStore().$patch({isLoadingStockData: true})
+ if(!useAppStore().isLoggedIn){
+  useAppStore().$patch({isLoadingStockData: false})
+  return ''
+}
+ else{
+  useAppStore().$patch({isLoadingStockData: true})
+    const db = getDatabase()
+    var data = []
+    const balanceChange = ref(db, symbol)
+    onValue( balanceChange, (snapshot) => {
+    const transactions = snapshot.val()
+    let keys = Object.keys(transactions)
+    keys.forEach(el => {
+      console.log(el)
+      })
+    if (!data.length==0) {
+    data = data.reduce((accumulator, currentValue) => accumulator + currentValue)
+    useAppStore().$patch({currentBalance: data})
+    useAppStore().$patch({isLoadingStockData: false})}
+    else {
+      data = 0
+      useAppStore().$patch({currentBalance: data})
+      useAppStore().$patch({isLoadingStockData: false})
+    }
+    })}
+}

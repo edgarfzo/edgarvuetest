@@ -13,7 +13,7 @@ export const useAppStore = defineStore('app', {
     },
     currentBalance: '',
     isLoadingBalance: true,
-    stockData: ''
+    stockData: []
   }),
   actions: {
     setCurrentUser(state, user){
