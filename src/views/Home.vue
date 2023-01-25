@@ -7,7 +7,9 @@
   :isLoadingBalance="isLoadingBalance" >
   </BalanceCard>
   <br/>
-  <StockCard/>
+  <StockCard
+  :isLoadingStocksAvailable="isLoadingStocksAvailable" >
+  </StockCard>
 </template>
 
 <script>
@@ -34,10 +36,12 @@ import { getBalance } from "@/firebase-utils"
       },
       isLoadingBalance(){
         return useAppStore().isLoadingBalance
+      },
+      isLoadingStocksAvailable(){
+        return useAppStore().isLoadingStocksAvailable
       }
     },
     created(){
-      //useAppStore().setStockData()
       getBalance()
     }
   }

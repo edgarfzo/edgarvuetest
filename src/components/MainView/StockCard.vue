@@ -1,29 +1,30 @@
 <template>
 
-    <Skeletor v-if="isLoadingBalance" height="500"/>
+    <Skeletor v-if="isLoadingStockData" height="500"/>
     <v-card v-else
       class="mx-auto"
       max-width="1000"
-      height="500"
+      height="700"
     >
     <v-card-item title="Stock Card"/>
     <br/>
     <v-row justify="center" class="ma-2">
       <v-col sm="4">
         <v-select
-          
+          v-model ="currentItem"
           :items="items"
           label="Standard"
-          @input="selectStock()"
+          @change="selectStock"
         >
         </v-select>
-      </v-col>
-    </v-row>
+
         <br/>
     <StockGraph
     :series="series"
     :chartOptions="chartOptions">
   </StockGraph>
+</v-col>
+    </v-row>
     </v-card>
   </template>
 
@@ -37,9 +38,9 @@ import  StockGraph from '@/components/MainView/StockGraph/StockGraph.vue'
 
 
   export default {
-    name: 'BalanceCard',
+    name: 'StockCard',
     props: {
-      isLoadingBalance: true
+      isLoadingStocksAvailable: true
     },
     components: {
       Skeletor,
@@ -48,9 +49,15 @@ import  StockGraph from '@/components/MainView/StockGraph/StockGraph.vue'
     data: () => ({
       loading: false,
       amount: 100000,
-      items: ['None','IBM','1','2','3']
+      items: ['None','IBM','1','2','3'],
+      currentItem: ''
     }),
     computed: {
+      selectStock(){
+        if(!this.currentItem=='')
+        {console.log(this.currentItem)
+        return getStockData(this.currentItem)}
+      },
         environment(){
             return import.meta.env.VITE_APP_ENV
         },  
@@ -60,7 +67,7 @@ import  StockGraph from '@/components/MainView/StockGraph/StockGraph.vue'
         series () { 
           return [{
       name: 'Desktops',
-      data: useAppStore().stockData
+      data: useAppStore().stockData[1]
       }]
       },
     chartOptions (){
@@ -89,33 +96,15 @@ import  StockGraph from '@/components/MainView/StockGraph/StockGraph.vue'
         },
       },
       xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+        categories: useAppStore().stockData[0],
       }
     }}
   },
     methods: {
-      selectStock(){
-        console.log('hello')
-        return getStockData()
-      },
       load () {
         this.loading = true
         setTimeout(() => (this.loading = false), 3000)
-      },
-      addCredit () {
-        console.log(useAppStore().currentBalance)
-        if(!useAppStore().getCurrentUser.displayName) {
-         return  alert("Please LogIn")
-        }
-        const db = getDatabase()
-        const transactionsRef = ref(db, 'transactions/')
-          push(transactionsRef, {
-          name: useAppStore().getCurrentUser.displayName,
-          transactionDate: new Date().toISOString(),
-          amount: this.amount
-          })
-          getBalance()
-      }     
+      },  
     },
     watch(){
       useAppStore().currentBalance()
