@@ -9,14 +9,18 @@ async function postData (key:string, object:Object){
 
 function resultHandling (object:Object, interval:string){
 	const value = object[`Time Series (${interval})`]
-	var key = Object.keys(value)[0]
-	const lastValue = value[key]
-	Object.keys(lastValue).forEach(el => {
+	var key = Object.keys(value)
+	key.forEach(element => {
+		const lastValue = value[element]
+		Object.keys(lastValue).forEach(el => {
 		lastValue[el.slice(3)] = lastValue[el]
 		delete lastValue[el]
 		})
-	key = key.toString().replace(/ /g,"_")
-	return {key,lastValue}
+		const keytoUse = element.toString().replace(/ /g,"_")
+		postData(keytoUse, lastValue)
+	})
+	
+	
 }
 
 export default async function getStockData () {
@@ -31,8 +35,8 @@ export default async function getStockData () {
 			},
 		  },
 		)
-		const {key, lastValue} = resultHandling(data, interval)
-		postData(key, lastValue)
+		resultHandling(data, interval)
+		
 		// 👇️ "response status is: 200"
 		console.log('response status is: ', status)
 	  } catch (error:any) {

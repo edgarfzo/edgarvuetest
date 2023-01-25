@@ -7,12 +7,19 @@
       height="500"
     >
     <v-card-item title="Stock Card"/>
-    <v-select
-          @input = "selectStock()"
-          :items="items"
-          label="Choose your Stock"
+    <br/>
+    <v-row justify="center" class="ma-2">
+      <v-col sm="4">
+        <v-select
           
-        ></v-select>
+          :items="items"
+          label="Standard"
+          @input="selectStock()"
+        >
+        </v-select>
+      </v-col>
+    </v-row>
+        <br/>
     <StockGraph
     :series="series"
     :chartOptions="chartOptions">
@@ -41,15 +48,9 @@ import  StockGraph from '@/components/MainView/StockGraph/StockGraph.vue'
     data: () => ({
       loading: false,
       amount: 100000,
+      items: ['None','IBM','1','2','3']
     }),
     computed: {
-      selectStock(){
-        console.log('hi')
-        return getStockData()
-      },
-      items () {
-        return ['None','IBM']
-      },
         environment(){
             return import.meta.env.VITE_APP_ENV
         },  
@@ -93,6 +94,10 @@ import  StockGraph from '@/components/MainView/StockGraph/StockGraph.vue'
     }}
   },
     methods: {
+      selectStock(){
+        console.log('hello')
+        return getStockData()
+      },
       load () {
         this.loading = true
         setTimeout(() => (this.loading = false), 3000)

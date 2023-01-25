@@ -2,9 +2,11 @@
   <p>User : {{getUser.name}}</p>
   <p>Email : {{getUser.email}}</p>
   <p>Last Login : {{getUser.lastLogin}}</p>
+
   <BalanceCard 
   :isLoadingBalance="isLoadingBalance" >
   </BalanceCard>
+  <br/>
   <StockCard/>
 </template>
 
