@@ -1,7 +1,7 @@
 const axios = require('axios')
 
 async function postData (key:string, object:Object){
-	const response = await axios.put(`https://test-e4100-default-rtdb.europe-west1.firebasedatabase.app/IBM/${key}.json`,
+	const response = await axios.put(`https://test-e4100-default-rtdb.europe-west1.firebasedatabase.app/GOOGL/${key}.json`,
 	object
 	)
 	console.log(response.data)
@@ -28,7 +28,7 @@ export default async function getStockDataFromAPI () {
 		const interval = '30min'
 		// 👇️ const data: GetUsersResponse
 		const { data, status } = await axios.get(
-		  `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=${interval}&apikey=UNTV74N295P1JUJJ`,
+		  `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=GOOGL&interval=${interval}&apikey=UNTV74N295P1JUJJ`,
 		  {
 			headers: {
 			  Accept: 'application/json',

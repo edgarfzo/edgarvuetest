@@ -51,7 +51,7 @@ import { Skeletor } from 'vue-skeletor';
     },
     data: () => ({
       loading: false,
-      amount: 100000,
+      amount: 1000,
     }),
     computed: {
         environment(){

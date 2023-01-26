@@ -2,17 +2,23 @@
   <p>User : {{getUser.name}}</p>
   <p>Email : {{getUser.email}}</p>
   <p>Last Login : {{getUser.lastLogin}}</p>
+
   <BalanceCard 
   :isLoadingBalance="isLoadingBalance" >
   </BalanceCard>
-  <StockCard/>
+  <br/>
+  <StockCard
+  :isLoadingStocksAvailable="isLoadingStocksAvailable"
+  :items="items"
+  >
+  </StockCard>
 </template>
 
 <script>
 import BalanceCard from '@/components/MainView/BalanceCard.vue'
 import StockCard from '@/components/MainView/StockCard.vue'
 import { useAppStore } from '@/store/app'
-import { getBalance } from "@/firebase-utils"
+import { getBalance, getStocksAvailable } from "@/firebase-utils"
 
   export default{
     name: 'Home',
@@ -32,11 +38,17 @@ import { getBalance } from "@/firebase-utils"
       },
       isLoadingBalance(){
         return useAppStore().isLoadingBalance
+      },
+      isLoadingStocksAvailable(){
+        return useAppStore().isLoadingStocksAvailable
+      },
+      items(){
+        return  useAppStore().stocksAvailable
       }
     },
-    created(){
-      //useAppStore().setStockData()
+    beforeMount(){
       getBalance()
+      getStocksAvailable()
     }
   }
 </script>

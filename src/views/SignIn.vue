@@ -9,7 +9,7 @@
 <script>
 import {getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup} from 'firebase/auth'
 import { useAppStore } from '@/store/app'
-import { getBalance } from '@/firebase-utils'
+import { getBalance, getStocksAvailable } from '@/firebase-utils'
 
 export default {
     name: 'Register',
@@ -31,6 +31,7 @@ export default {
             signInWithPopup(getAuth(), provider)
             .then((result) =>{
                 getBalance()
+                getStocksAvailable()
                 useAppStore().$patch({isLoggedIn: true})
                 useAppStore().$patch({currentUser: result.user})
                 this.$router.push('/home')

@@ -40,3 +40,60 @@ export const getCurrentUser = () => {
     }, reject);
   })
 }
+
+export const getStockData = (symbol) => {
+  useAppStore().$patch({isLoadingStockData: true})
+ if(!useAppStore().isLoggedIn){
+  useAppStore().$patch({isLoadingStockData: false})
+  return ''
+}
+ else{
+  useAppStore().$patch({isLoadingStockData: true})
+    const db = getDatabase()
+    var data = [[],[]]
+    const balanceChange = ref(db, symbol)
+    onValue( balanceChange, (snapshot) => {
+    const transactions = snapshot.val()
+    let keys = Object.keys(transactions)
+    keys.forEach(el => {
+      data[0].push(el)
+      data[1].push(transactions[el].close)
+      })
+      
+    if (!data.length==0) {
+    useAppStore().$patch({stockData: data})
+    useAppStore().$patch({isLoadingStockData: false})}
+    else {
+      data = 0
+      useAppStore().$patch({isLoadingStockData: false})
+    }
+    })}
+}
+
+export const getStocksAvailable = () => {
+  useAppStore().$patch({isLoadingStocksAvailable: true})
+ if(!useAppStore().isLoggedIn){
+  useAppStore().$patch({isLoadingStocksAvailable: false})
+  return ''
+}
+ else{
+  useAppStore().$patch({isLoadingStocksAvailable: true})
+    const db = getDatabase()
+    var data = []
+    const balanceChange = ref(db, '/')
+    onValue( balanceChange, (snapshot) => {
+    const transactions = snapshot.val()
+    let keys = Object.keys(transactions)
+    keys.forEach(el => {
+      if(el!='transactions')
+      data.push(el)
+      })
+    if (!data.length==0) {
+    useAppStore().$patch({stocksAvailable: data})
+    useAppStore().$patch({isLoadingStocksAvailable: false})}
+    else {
+      data = 0
+      useAppStore().$patch({isLoadingStocksAvailable: false})
+    }
+    })}
+}
