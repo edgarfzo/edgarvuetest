@@ -8,7 +8,9 @@
   </BalanceCard>
   <br/>
   <StockCard
-  :isLoadingStocksAvailable="isLoadingStocksAvailable" >
+  :isLoadingStocksAvailable="isLoadingStocksAvailable"
+  :items="items"
+  >
   </StockCard>
 </template>
 
@@ -16,7 +18,7 @@
 import BalanceCard from '@/components/MainView/BalanceCard.vue'
 import StockCard from '@/components/MainView/StockCard.vue'
 import { useAppStore } from '@/store/app'
-import { getBalance } from "@/firebase-utils"
+import { getBalance, getStocksAvailable } from "@/firebase-utils"
 
   export default{
     name: 'Home',
@@ -39,10 +41,14 @@ import { getBalance } from "@/firebase-utils"
       },
       isLoadingStocksAvailable(){
         return useAppStore().isLoadingStocksAvailable
+      },
+      items(){
+        return  useAppStore().stocksAvailable
       }
     },
-    created(){
+    beforeMount(){
       getBalance()
+      getStocksAvailable()
     }
   }
 </script>

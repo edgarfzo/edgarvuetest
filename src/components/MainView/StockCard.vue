@@ -1,6 +1,6 @@
 <template>
 
-    <Skeletor v-if="isLoadingStockData" height="500"/>
+    <Skeletor v-if="isLoadingStocksAvailable" height="500"/>
     <v-card v-else
       class="mx-auto"
       max-width="1000"
@@ -21,7 +21,9 @@
         <br/>
     <StockGraph
     :series="series"
-    :chartOptions="chartOptions">
+    :chartOptions="chartOptions"
+    :isLoadingStockData="isLoadingStockData"
+    >
   </StockGraph>
 </v-col>
     </v-row>
@@ -31,7 +33,7 @@
   <script>
 import { getDatabase, ref, set, onValue, push  } from "firebase/database"
 import { useAppStore } from '@/store/app'
-import { getBalance, getStockData } from "@/firebase-utils"
+import { getBalance, getStocksAvailable ,getStockData } from "@/firebase-utils"
 import 'vue-skeletor/dist/vue-skeletor.css'
 import { Skeletor } from 'vue-skeletor'
 import  StockGraph from '@/components/MainView/StockGraph/StockGraph.vue'
@@ -40,7 +42,8 @@ import  StockGraph from '@/components/MainView/StockGraph/StockGraph.vue'
   export default {
     name: 'StockCard',
     props: {
-      isLoadingStocksAvailable: true
+      isLoadingStocksAvailable: true,
+      items: []
     },
     components: {
       Skeletor,
@@ -49,13 +52,17 @@ import  StockGraph from '@/components/MainView/StockGraph/StockGraph.vue'
     data: () => ({
       loading: false,
       amount: 100000,
-      items: ['None','IBM','1','2','3'],
       currentItem: ''
     }),
     computed: {
+      isLoadingStockData(){
+        return useAppStore().isLoadingStockData
+      },
+      stocksAvailable (){
+        return getStocksAvailable()
+      },
       selectStock(){
-        if(!this.currentItem=='')
-        {console.log(this.currentItem)
+        if(!this.currentItem==''){
         return getStockData(this.currentItem)}
       },
         environment(){
@@ -106,8 +113,5 @@ import  StockGraph from '@/components/MainView/StockGraph/StockGraph.vue'
         setTimeout(() => (this.loading = false), 3000)
       },  
     },
-    watch(){
-      useAppStore().currentBalance()
-    }
   }
 </script>

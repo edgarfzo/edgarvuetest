@@ -61,7 +61,6 @@ export const getStockData = (symbol) => {
       })
       
     if (!data.length==0) {
-    console.log(data)
     useAppStore().$patch({stockData: data})
     useAppStore().$patch({isLoadingStockData: false})}
     else {
@@ -74,7 +73,7 @@ export const getStockData = (symbol) => {
 export const getStocksAvailable = () => {
   useAppStore().$patch({isLoadingStocksAvailable: true})
  if(!useAppStore().isLoggedIn){
-  useAppStore().$patch({isLoadingStockData: false})
+  useAppStore().$patch({isLoadingStocksAvailable: false})
   return ''
 }
  else{
@@ -86,10 +85,10 @@ export const getStocksAvailable = () => {
     const transactions = snapshot.val()
     let keys = Object.keys(transactions)
     keys.forEach(el => {
+      if(el!='transactions')
       data.push(el)
       })
     if (!data.length==0) {
-    console.log(data)
     useAppStore().$patch({stocksAvailable: data})
     useAppStore().$patch({isLoadingStocksAvailable: false})}
     else {

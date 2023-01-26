@@ -13,7 +13,8 @@ export default {
         },
     props: {
             series: Array,
-            chartOptions: Object
+            chartOptions: Object,
+            isLoadingStockData: true
 
         },
     data: () => ({ 
