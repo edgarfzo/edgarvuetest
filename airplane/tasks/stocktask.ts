@@ -1,7 +1,7 @@
 const axios = require('axios')
 
 async function postData (key:string, object:Object){
-	const response = await axios.put(`https://test-e4100-default-rtdb.europe-west1.firebasedatabase.app/IBM/${key}.json`,
+	const response = await axios.put(`${process.env.APP_DB_URL}/IBM/${key}.json`,
 	object
 	)
 	console.log(response.data)
