@@ -1,5 +1,4 @@
 const axios = require('axios')
-const airplane = require('airplane')
 
 async function postData (key:string, object:Object){
 	const response = await axios.put(`${process.env.APP_DB_URL}/GOOGL/${key}.json`,
