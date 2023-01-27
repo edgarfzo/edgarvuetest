@@ -15,7 +15,6 @@ jobs:
       - uses: airplanedev/airplane-deploy@v1
         with:
           api-key: ${{ secrets.AIRPLANE_API_KEY }}
-          # Find this at https://app.airplane.dev/settings/team
           team-id: tea20230123zxrk4f9nxvx
   build_and_deploy_dev:
     runs-on: ubuntu-latest
