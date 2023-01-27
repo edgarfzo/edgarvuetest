@@ -41,7 +41,7 @@ name: stockTask
 node:
   # The path to the .ts or .js file containing the logic for this task. This
   # can be absolute or relative to the location of the definition file.
-  entrypoint: stocktask.ts
+  entrypoint: tasks/stocktask.ts
 
   # The version of Node to use. Valid values: 14, 16, 18.
   nodeVersion: "18"
@@ -72,3 +72,6 @@ node:
 # The maximum number of seconds the task should take before being timed out.
 # Default: 3600.
 # timeout: 1800
+  envVars:
+      APP_DB_URL:
+        config: APP_DB_URL

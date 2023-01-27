@@ -2,7 +2,7 @@ import { getDatabase, ref, set, onValue, push  } from "firebase/database"
 import{ getAuth, onAuthStateChanged } from 'firebase/auth'
 import { useAppStore } from '@/store/app'
 
-export const getBalance = () => {
+export const getBalance = async() => {
   useAppStore().$patch({isLoadingBalance: true})
  if(!useAppStore().isLoggedIn){
   useAppStore().$patch({isLoadingBalance: false})
@@ -13,7 +13,7 @@ export const getBalance = () => {
     const db = getDatabase()
     var data = []
     const balanceChange = ref(db, 'transactions')
-    onValue( balanceChange, (snapshot) => {
+    await onValue( balanceChange, (snapshot) => {
     const transactions = snapshot.val()
     let keys = Object.keys(transactions)
     keys.forEach(el => {
@@ -70,7 +70,7 @@ export const getStockData = (symbol) => {
     })}
 }
 
-export const getStocksAvailable = () => {
+export const getStocksAvailable = async() => {
   useAppStore().$patch({isLoadingStocksAvailable: true})
  if(!useAppStore().isLoggedIn){
   useAppStore().$patch({isLoadingStocksAvailable: false})
@@ -81,7 +81,7 @@ export const getStocksAvailable = () => {
     const db = getDatabase()
     var data = []
     const balanceChange = ref(db, '/')
-    onValue( balanceChange, (snapshot) => {
+    await onValue( balanceChange, (snapshot) => {
     const transactions = snapshot.val()
     let keys = Object.keys(transactions)
     keys.forEach(el => {

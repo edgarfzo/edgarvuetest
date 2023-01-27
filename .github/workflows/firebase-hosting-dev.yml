@@ -8,6 +8,15 @@ on:
       - 'dev/*'
 
 jobs:
+  deploy_backend:
+     runs-on: ubuntu-latest
+     environment: 'development'
+     steps:
+      - uses: airplanedev/airplane-deploy@v1
+        with:
+          api-key: ${{ secrets.AIRPLANE_API_KEY }}
+          team-id: tea20230123zxrk4f9nxvx
+          env: development
   build_and_deploy_dev:
     runs-on: ubuntu-latest
     environment: 'development'

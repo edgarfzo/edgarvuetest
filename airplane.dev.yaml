@@ -1,0 +1,3 @@
+resources: []
+configVars:
+    APP_DB_URL: https://test-e4100-default-rtdb.europe-west1.firebasedatabase.app
