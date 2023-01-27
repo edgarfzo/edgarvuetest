@@ -1,10 +1,10 @@
 # Full reference: https://docs.airplane.dev/tasks/task-definition
 
 # Used by Airplane to identify your task. Do not change.
-slug: stocktask2
+slug: stocktask
 
 # A human-readable name for your task.
-name: stockTask2
+name: stockTask
 
 # A human-readable description for your task.
 # description: "My Airplane task"
@@ -41,7 +41,7 @@ name: stockTask2
 node:
   # The path to the .ts or .js file containing the logic for this task. This
   # can be absolute or relative to the location of the definition file.
-  entrypoint: stocktask2.ts
+  entrypoint: tasks/stocktask.ts
 
   # The version of Node to use. Valid values: 14, 16, 18.
   nodeVersion: "18"

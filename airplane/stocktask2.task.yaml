@@ -41,7 +41,7 @@ name: stockTask2
 node:
   # The path to the .ts or .js file containing the logic for this task. This
   # can be absolute or relative to the location of the definition file.
-  entrypoint: stocktask2.ts
+  entrypoint: tasks/stocktask2.ts
 
   # The version of Node to use. Valid values: 14, 16, 18.
   nodeVersion: "18"
