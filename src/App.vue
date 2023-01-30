@@ -1,22 +1,35 @@
 <template>
-  <div id='nav'>
-    <router-link to="/"> Home </router-link>
-    <router-link to="/signin"> Login </router-link>
-    <button @click="handleSignOut" v-if="isLoggedIn"> Sign Out</button>
-  </div>
-  <router-view />
+<v-app>
+
+<!-- Sizes your content based upon application components -->
+  <v-main>
+
+    <!-- Provides the application the proper gutter -->
+    <v-container fluid>
+
+      <!-- If using vue-router -->
+      <router-view></router-view>
+    </v-container>
+  </v-main>
+
+  <v-footer app>
+    <Footer></Footer>
+  </v-footer>
+</v-app>
 </template>
 
 <script>
 import{ getAuth, onAuthStateChanged, signOut} from 'firebase/auth'
 import { useAppStore } from './store/app'
+import  Header  from '@/components/Header.vue'
+import Footer from '@/components/Footer.vue'
   export default {
   name: 'app',
   data(){ 
     return {
     }
     },
-  components: {  },
+  components: {Footer},
   created () {
       const title = 'Edgar App in ' + import.meta.env.VITE_APP_ENV
       document.title = title
