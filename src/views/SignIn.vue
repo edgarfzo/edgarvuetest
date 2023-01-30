@@ -11,6 +11,7 @@
       elevation="8"
       max-width="448"
       rounded="lg"
+      
     >
 
       <div class="text-subtitle-1 text-medium-emphasis">Account</div>
@@ -20,6 +21,7 @@
         placeholder="Email address"
         prepend-inner-icon="mdi-email-outline"
         variant="outlined"
+        v-model="email"
       ></v-text-field>
 
       <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
@@ -41,6 +43,7 @@
         placeholder="Enter your password"
         prepend-inner-icon="mdi-lock-outline"
         variant="outlined"
+        v-model="password"
         @click:append-inner="visible = !visible"
       ></v-text-field>
 
@@ -60,6 +63,7 @@
         color="blue"
         size="large"
         variant="tonal"
+        @click="createUser()"
       >
         Log In
       </v-btn>
@@ -67,9 +71,7 @@
       <v-card-text class="text-center">
         <a
           class="text-blue text-decoration-none"
-          href="#"
-          rel="noopener noreferrer"
-          target="_blank"
+          @click="register()"
         >
           Sign up now <v-icon icon="mdi-chevron-right"></v-icon>
         </a>
@@ -78,9 +80,52 @@
   </div>
 </template>
 <script>
+import { getAuth, sendSignInLinkToEmail, createUserWithEmailAndPassword } from "firebase/auth"
   export default {
     data: () => ({
       visible: false,
+      email:'',
+      password:''
     }),
+    methods: {
+        createUser (){
+            const auth = getAuth();
+            createUserWithEmailAndPassword(auth, this.email, this.password)
+            .then((userCredential) => {
+                // Signed in 
+                const user = userCredential.user;
+                // ...
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // ..
+            });
+        },
+        register (){
+            const email ='edgarfo1996@gmail.com'
+            const actionCodeSettings = {
+            // URL you want to redirect back to. The domain (www.example.com) for this
+            // URL must be in the authorized domains list in the Firebase Console.
+            url: 'https://localhost:3000',
+            // This must be true.
+            handleCodeInApp: true,
+            };
+            const auth = getAuth()
+            sendSignInLinkToEmail(auth, email, actionCodeSettings)
+            .then(() => {
+                // The link was successfully sent. Inform the user.
+                // Save the email locally so you don't need to ask the user for it again
+                // if they open the link on the same device.
+                window.localStorage.setItem('emailForSignIn', email);
+                // ...
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // ...
+            });
+        }
+    }
   }
 </script>
