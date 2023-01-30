@@ -1,54 +1,49 @@
 <template>
-  <p>User : {{getUser.name}}</p>
-  <p>Email : {{getUser.email}}</p>
-  <p>Last Login : {{getUser.lastLogin}}</p>
+  <v-container class="flex-grow-1 d-flex flex-column flex-nowrap align-stretch">
+    <v-row>
+      <v-col
+      class="pa-0"
+      cols="12">
+        <Header></Header>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col
+      class="pa-0"
+      cols="12">
+        <Search></Search>
+      </v-col>
+    </v-row>
+    <v-row v-for="item in companies">
+      <v-col
+      class="pa-2"
+      cols="12">
+        <CompanyCard
+        :CompanyName="item">
+      </CompanyCard>
+      </v-col>
+    </v-row>
+  </v-container>
+  
 
-  <BalanceCard 
-  :isLoadingBalance="isLoadingBalance" >
-  </BalanceCard>
-  <br/>
-  <StockCard
-  :isLoadingStocksAvailable="isLoadingStocksAvailable"
-  :items="items"
-  >
-  </StockCard>
+
+
 </template>
 
 <script>
-import BalanceCard from '@/components/MainView/BalanceCard.vue'
-import StockCard from '@/components/MainView/StockCard.vue'
 import { useAppStore } from '@/store/app'
-import { getBalance, getStocksAvailable } from "@/firebase-utils"
-
+import Header from '@/components/Header.vue'
+import Search from '@/components/Search.vue'
+import CompanyCard from '@/components/CompanyCard.vue'
   export default{
     name: 'Home',
     components: {
-    BalanceCard,
-    StockCard
-}, data: () => ({
-}),
-    computed:{
-      getUser(){
-        const user = {
-          name: useAppStore().currentUser.displayName,
-          email: useAppStore().currentUser.email,
-          lastLogin: useAppStore().currentUser.metadata.lastSignInTime,
-        }
-        return user
-      },
-      isLoadingBalance(){
-        return useAppStore().isLoadingBalance
-      },
-      isLoadingStocksAvailable(){
-        return useAppStore().isLoadingStocksAvailable
-      },
-      items(){
-        return  useAppStore().stocksAvailable
-      }
-    },
-    beforeMount(){
-      getBalance()
-      getStocksAvailable()
-    }
+    Header,
+    Search,
+    CompanyCard
+}, 
+data: () => ({
+  companies: ['GRIFOLS', 'ALMIRALL']
+})
   }
 </script>

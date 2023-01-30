@@ -16,6 +16,7 @@
     "chart.js": "^4.2.0",
     "core-js": "^3.8.3",
     "firebase": "^9.15.0",
+    "firebaseui": "^6.0.2",
     "pinia": "^2.0.23",
     "pinia-plugin-persistedstate": "^3.0.2",
     "roboto-fontface": "*",
