@@ -31,7 +31,7 @@ import Footer from '@/components/Footer.vue'
     },
   components: {Footer},
   created () {
-      const title = 'Edgar App in ' + import.meta.env.VITE_APP_ENV
+      const title = 'PROJECTA'
       document.title = title
       
     },
