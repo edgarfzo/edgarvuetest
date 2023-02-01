@@ -4,9 +4,10 @@
       elevation=""
       max-width="448"
       rounded="lg"
-      :color="color()"
+      :color="color"
       
     >
+        {{ this.type }} companies
 
       <div class="text-subtitle-1 text-medium-emphasis">Account</div>
 
@@ -84,11 +85,10 @@ import { getAuth, sendSignInLinkToEmail, createUserWithEmailAndPassword } from "
     }),
     props:{
         type: String
-
     },
     computed:{
-        color(){
-            if(type==='healthcare') {
+        color() {
+            if(this.type==='healthcare') {
                 return 'black'
             } else {
                 return 'white'

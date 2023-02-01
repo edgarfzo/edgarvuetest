@@ -10,11 +10,11 @@
   <v-row>
     <v-col>
         <LoginCard
-        :type="healthcare"></LoginCard>
+        type="healthcare"></LoginCard>
     </v-col>
     <v-col>
         <LoginCard
-        :type="services"></LoginCard>
+        type="services"></LoginCard>
     </v-col>
   </v-row>
 </v-container>
