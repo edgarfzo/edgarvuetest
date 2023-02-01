@@ -87,7 +87,6 @@ import { getAuth, sendSignInLinkToEmail, createUserWithEmailAndPassword } from "
             const auth = getAuth();
             createUserWithEmailAndPassword(auth, this.email, this.password)
             .then((userCredential) => {
-                // Signed in 
                 const user = userCredential.user;
                 // ...
             })
