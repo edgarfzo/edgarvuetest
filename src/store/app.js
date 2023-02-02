@@ -19,6 +19,13 @@ export const useAppStore = defineStore('app', {
     stocksAvailable: []
   }),
   actions: {
+    signUpHealthcare (){
+        axios.get(`${import.meta.env.VITE_APP_DB_URL}/GOOGL/2023-01-23_18:30:00.json`)
+        .then((response) => console.log(response))
+    },
+    signUpServices (){
+
+    },
 
 }
 })

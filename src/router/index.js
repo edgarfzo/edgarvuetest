@@ -10,6 +10,7 @@ const routes = [
   meta:{requiresAuth: true},
   },
   { path: '/signin', component: () => import('../views/SignIn.vue') },
+  { path: '/signup/:type', component: () => import('../views/SignUp.vue'), props: true },
 ]
 
 const router = createRouter({
