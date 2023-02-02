@@ -45,24 +45,26 @@
         color="blue"
         size="large"
         variant="tonal"
-        @click="createUser()"
+        @click="loginUser()"
       >
         Log In
       </v-btn>
 
       <v-card-text class="text-center">
-        <a
+        <v-btn
           class="text-blue text-decoration-none"
           @click="register()"
         >
           Sign up now <v-icon icon="mdi-chevron-right"></v-icon>
-        </a>
+      </v-btn>
       </v-card-text>
     </v-card>
 </template>
 
 <script>
 import { getAuth, sendSignInLinkToEmail, createUserWithEmailAndPassword } from "firebase/auth"
+import { useAppStore } from '@/store/app'
+import router from '@/router'
   export default {
     name: 'LoginCard',
     data: () => ({
@@ -83,44 +85,11 @@ import { getAuth, sendSignInLinkToEmail, createUserWithEmailAndPassword } from "
         }
     },
     methods: {
-        createUser (){
-            const auth = getAuth();
-            createUserWithEmailAndPassword(auth, this.email, this.password)
-            .then((userCredential) => {
-                // Signed in 
-                const user = userCredential.user;
-                // ...
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                // ..
-            });
+        loginUser (){
+            
         },
         register (){
-            const email ='edgarfo1996@gmail.com'
-            const actionCodeSettings = {
-            // URL you want to redirect back to. The domain (www.example.com) for this
-            // URL must be in the authorized domains list in the Firebase Console.
-            url: 'https://localhost:3000',
-            // This must be true.
-            handleCodeInApp: true,
-            };
-            const auth = getAuth()
-            sendSignInLinkToEmail(auth, email, actionCodeSettings)
-            .then(() => {
-                // The link was successfully sent. Inform the user.
-                // Save the email locally so you don't need to ask the user for it again
-                // if they open the link on the same device.
-                window.localStorage.setItem('emailForSignIn', email);
-                // ...
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                // ...
-            });
-        }
+            router.push({ path: `/signup/${this.type}` })
     }
-  }
+  }}
 </script>
