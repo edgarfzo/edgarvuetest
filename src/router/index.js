@@ -20,13 +20,7 @@ const router = createRouter({
 
 router.beforeEach(async(to, from, next) => {
 if(to.matched.some((record)=> record.meta.requiresAuth) && import.meta.env.VITE_APP_ENV!='DEV') {
-  if(!await getCurrentUser()){
     next('/signin')
-  }
-else 
-{
-  next()
-}
 }
 else{
   next()
