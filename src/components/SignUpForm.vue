@@ -6,7 +6,7 @@
     <v-card class="mx-auto px-6 py-8" max-width="344" :color="color">
       <v-form
         v-model="form"
-        @submit.prevent="onSubmit"
+        @submit="onSubmit"
       >
       <v-text-field
           v-model="username"
@@ -138,12 +138,20 @@ export default {
         }
     },
     methods: {
-      onSubmit () {
+      async onSubmit () {
         if (!this.form) return
 
         this.loading = true
+        try {
+          await useAppStore().register(getAuth(), this.email,this.password1)
+          await router.push('/')
+      }
+      catch (err) {
+        this.loading = false
+        error.value = err.message
+            }
 
-        setTimeout(() => (this.loading = false), 2000)
+        
       },
       required (v) {
         return !!v || 'Field is required'
