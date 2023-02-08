@@ -88,7 +88,16 @@ import router from '@/router'
     },
     methods: {
         async loginUser (){
-            await useAppStore().signUpHealthcare()
+          await useAppStore().register(getAuth(), 'edgarfo1996@gmail.com', 'edgar696',{
+          username: 'this.username',
+          cif: 'thi.cif',
+          enterprisetype: 'this.enterprisetype',
+          description: 'this.description',
+          contact: 'this.contact',
+          email: 'this.email',
+          department: 'this.department'
+          }
+          )
             console.log(useAppStore().stockData)
         },
         register (){

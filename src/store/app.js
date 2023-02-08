@@ -5,13 +5,7 @@ import {createUserWithEmailAndPassword, fetchSignInMethodsForEmail} from 'fireba
 export const useAppStore = defineStore('app', {
   state: () => ({
     isLoggedIn: false,
-    currentUser: {
-      displayName: '',
-      email:'',
-      metadata: {
-        lastSignInTime: ''
-      }
-    },
+    currentUser: null,
     isLoadingBalance: true,
     isLoadingStockData: true,
     isLoadingStocksAvailable: true,
@@ -20,24 +14,43 @@ export const useAppStore = defineStore('app', {
     stocksAvailable: []
   }),
   actions: {
-    async signUpHealthcare (){
-       const response = await axios.get(`${import.meta.env.VITE_APP_DB_URL}/.json`)
-       this.stockData = response.data
-    },
-    async register(auth, email, password){
-      await fetchSignInMethodsForEmail(auth, email).then((result) => {
-        if(result.length>0){
-         alert('user already exists')
-        }
+    // async signUpHealthcare (){
+    //   await axios.put(`${import.meta.env.VITE_APP_DB_URL}/.json`, { hello: 'orld' })
+    //    const response = await axios.get(`${import.meta.env.VITE_APP_DB_URL}/.json`)
+    //    this.stockData = response.data
+    // },
+    async register(auth, email, password, payload){
+      const existingUser = await fetchSignInMethodsForEmail(auth, email)
+
+      
+      const registeredUsers = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/Users/.json`)).data
+      var cifs = []
+      var usernames = []
+      const keys = Object.keys(registeredUsers)
+      keys.forEach((el) => {
+        cifs.push(registeredUsers[el].cif)
+        usernames.push(registeredUsers[el].username)
       })
+
+
+      if(existingUser.length>0){
+      alert('user already exists') 
+      } else if(cifs.includes(payload.cif))
+      {
+        alert('cif already exists') 
+      } else if(usernames.includes(payload.username))
+      {
+        alert('username already exists') 
+      } else {
+      await axios.post(`${import.meta.env.VITE_APP_DB_URL}/Users/.json`, payload)
       const response = await createUserWithEmailAndPassword(auth,email, password)
       if (response) {
           this.currentUser =  response.user
       } else {
           throw new Error('Unable to register user')
       }
+    }
   },
-
   async logIn(context, { email, password }){
 
     const response = await signInWithEmailAndPassword(auth, email, password)
@@ -48,22 +61,11 @@ export const useAppStore = defineStore('app', {
     }
 },
 
-async logOut(context){
+async logOut(){
+    this.user = null
     await signOut(auth)
-    context.commit('SET_USER', null)
+    
 },
-
-async fetchUser(context ,user) {
-  context.commit("SET_LOGGED_IN", user !== null);
-  if (user) {
-    context.commit("SET_USER", {
-      displayName: user.displayName,
-      email: user.email
-    });
-  } else {
-    context.commit("SET_USER", null);
-  }
-}
 }})
 
 
