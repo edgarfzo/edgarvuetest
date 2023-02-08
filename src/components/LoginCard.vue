@@ -88,9 +88,9 @@ import router from '@/router'
     },
     methods: {
         async loginUser (){
-          await useAppStore().register(getAuth(), 'edgarfo1996@gmail.com', 'edgar696',{
-          username: 'this.username',
-          cif: 'thi.cif',
+          await useAppStore().register(getAuth(), 'edgarfo96@gmail.com', 'edgar696',{
+          username: 'this.usrname',
+          cif: 'ti.cf',
           enterprisetype: 'this.enterprisetype',
           description: 'this.description',
           contact: 'this.contact',

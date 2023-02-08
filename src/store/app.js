@@ -20,21 +20,21 @@ export const useAppStore = defineStore('app', {
     //    this.stockData = response.data
     // },
     async register(auth, email, password, payload){
-      const existingUser = await fetchSignInMethodsForEmail(auth, email)
+      const existingEmail = await fetchSignInMethodsForEmail(auth, email)
 
       
       const registeredUsers = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/Users/.json`)).data
       var cifs = []
       var usernames = []
-      const keys = Object.keys(registeredUsers)
+      const keys = registeredUsers? Object.keys(registeredUsers): []
       keys.forEach((el) => {
         cifs.push(registeredUsers[el].cif)
         usernames.push(registeredUsers[el].username)
       })
 
 
-      if(existingUser.length>0){
-      alert('user already exists') 
+      if(existingEmail.length>0){
+      alert('Email already exists') 
       } else if(cifs.includes(payload.cif))
       {
         alert('cif already exists') 
