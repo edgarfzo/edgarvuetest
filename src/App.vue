@@ -36,16 +36,7 @@ import Footer from '@/components/Footer.vue'
       
     },
   beforeMount() {
-    let auth = getAuth()
-    onAuthStateChanged(auth, (user)=>{
-      if (user){
-        useAppStore().$patch({isLoggedIn: true})
-        useAppStore().$patch({currentUser: user})
-      }
-      else {
-        useAppStore().$patch({isLoggedIn: false})
-      }
-    })
+    useAppStore().logOut(getAuth())
   },
   computed: {
     isLoggedIn(){

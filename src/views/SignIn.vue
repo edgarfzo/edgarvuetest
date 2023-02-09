@@ -22,10 +22,14 @@
 <script>
 import { getAuth, sendSignInLinkToEmail, createUserWithEmailAndPassword } from "firebase/auth"
 import LoginCard from '@/components/LoginCard.vue'
+import { useAppStore } from '../store/app'
   export default {
     name: 'SignInPage',
     components:{
         LoginCard
+    },
+    beforeMount() {
+      useAppStore().logOut(getAuth())
     }
   }
 </script>

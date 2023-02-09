@@ -1,17 +1,15 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
-import {createUserWithEmailAndPassword, fetchSignInMethodsForEmail} from 'firebase/auth'
+import {createUserWithEmailAndPassword,
+      fetchSignInMethodsForEmail,
+      signInWithEmailAndPassword,
+      signOut
+      } from 'firebase/auth'
 
 export const useAppStore = defineStore('app', {
   state: () => ({
     isLoggedIn: false,
-    currentUser: null,
-    isLoadingBalance: true,
-    isLoadingStockData: true,
-    isLoadingStocksAvailable: true,
-    currentBalance: '',
-    stockData: [],
-    stocksAvailable: []
+    currentUser: null
   }),
   actions: {
     // async signUpHealthcare (){
@@ -19,7 +17,7 @@ export const useAppStore = defineStore('app', {
     //    const response = await axios.get(`${import.meta.env.VITE_APP_DB_URL}/.json`)
     //    this.stockData = response.data
     // },
-    async register(auth, email, password, payload){
+  async register(auth, email, password, payload){
       const existingEmail = await fetchSignInMethodsForEmail(auth, email)
 
       
@@ -51,21 +49,24 @@ export const useAppStore = defineStore('app', {
       }
     }
   },
-  async logIn(context, { email, password }){
-
+  async login(auth, email, password){
+    try {
     const response = await signInWithEmailAndPassword(auth, email, password)
     if (response) {
       this.currentUser =  response.user
-    } else {
-        throw new Error('login failed')
     }
-},
+    } catch  (e) {
+      alert(e.message)
+    }
 
-async logOut(){
-    this.user = null
-    await signOut(auth)
     
-},
-}})
+  },
+
+  async logOut(auth){
+      this.user = null
+      await signOut(auth)
+      
+  },
+  }})
 
 

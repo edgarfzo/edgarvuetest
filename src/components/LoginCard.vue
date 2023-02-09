@@ -88,17 +88,8 @@ import router from '@/router'
     },
     methods: {
         async loginUser (){
-          await useAppStore().register(getAuth(), 'edgarfo96@gmail.com', 'edgar696',{
-          username: 'this.usrname',
-          cif: 'ti.cf',
-          enterprisetype: 'this.enterprisetype',
-          description: 'this.description',
-          contact: 'this.contact',
-          email: 'this.email',
-          department: 'this.department'
-          }
-          )
-            console.log(useAppStore().stockData)
+          await useAppStore().login(getAuth(), this.email, this.password)
+          console.log(useAppStore().currentUser.email)
         },
         register (){
             router.push({ path: `/signup/${this.type}` })

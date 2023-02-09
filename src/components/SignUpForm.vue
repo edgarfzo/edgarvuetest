@@ -54,6 +54,7 @@
           :rules="[required]"
           clearable
           label="Password"
+          type="password"
           placeholder="Enter your password"
         ></v-text-field>
 
@@ -62,6 +63,7 @@
           :readonly="loading"
           :rules="[required]"
           clearable
+          type="password"
           label="Enter Password again"
           placeholder="Enter your password again"
         ></v-text-field>
