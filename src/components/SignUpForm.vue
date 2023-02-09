@@ -128,13 +128,14 @@ export default {
       password1: null,
       password2: null,
       loading: false,
-      listtypes: ['Farmacéutica',' Medical (PS)','Cosmética','Biotecnológica']
+      listtypes: ['Farmacéutica',' Medical (PS)','Cosmética','Biotecnológica'],
     }),
     props: {
     type: String
     },
     computed:{
         color() {
+          console.log(this.type)
             if(this.type==='healthcare') {
                 return 'black'
             } else {
@@ -143,17 +144,19 @@ export default {
         }
     },
     methods: {
+      
       async onSubmit () {
+        console.log(this.type)
         if (!this.form) return
         this.loading = true
         const payload = {
           username: this.username,
           cif: this.cif,
-          enterprisetype: this.enterprisetype,
           description: this.description,
           contact: this.contact,
           email: this.email,
-          department: this.department
+          department: this.department,
+          enterpriseType: this.type
           }
           await useAppStore().register(getAuth(), this.email, this.password1, payload)
           this.loading = true

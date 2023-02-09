@@ -5,6 +5,12 @@ import {createUserWithEmailAndPassword,
       signInWithEmailAndPassword,
       signOut
       } from 'firebase/auth'
+import { getDatabase,
+        ref, 
+        orderByChild,
+        query,
+        onValue
+      } from "firebase/database"
 
 export const useAppStore = defineStore('app', {
   state: () => ({
@@ -49,7 +55,9 @@ export const useAppStore = defineStore('app', {
       }
     }
   },
-  async login(auth, email, password){
+  async login(auth, email, password, type){
+    const emailExisintg = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/Users.json?orderBy=email&equalTo=${email}`)).data
+    console.log(emailExisintg)
     try {
     const response = await signInWithEmailAndPassword(auth, email, password)
     if (response) {
