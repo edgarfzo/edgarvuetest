@@ -5,7 +5,7 @@ import { useAppStore } from '@/store/app'
 
 const routes = [
   {path:'/' ,
-   redirect:'/home'},
+   redirect:'/signin'},
 
   { path: '/home/:type', 
   component: () => import('../views/Home.vue'),
