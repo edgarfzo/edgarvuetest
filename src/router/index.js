@@ -29,8 +29,12 @@ const router = createRouter({
 
 router.beforeEach(async(to, from, next) => {
 if(to.matched.some((record)=> record.meta.requiresAuth) && import.meta.env.VITE_APP_ENV!='DEV') {
-  console.log(thi)
-    next('/signin')
+  if(!useAppStore().isLoggedIn) {
+      console.log('userloggedin: ', useAppStore().isLoggedIn)
+      next('/signin') 
+    } else {
+      next()
+    }
 }
 else{
   next()

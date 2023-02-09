@@ -62,11 +62,11 @@ export const useAppStore = defineStore('app', {
 
     
   },
-
   async logOut(auth){
+    await signOut(auth)
       this.isLoggedIn = false
       this.user = null
-      await signOut(auth)
+      
       
   },
   }})

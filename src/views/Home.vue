@@ -8,6 +8,7 @@
       </v-col>
     </v-row>
     <v-row>
+      {{  this.type  }} homepage
       <v-col
       class="pa-0"
       cols="12">
@@ -45,7 +46,7 @@ import CompanyCard from '@/components/CompanyCard.vue'
     }, 
     props: {
           type: String
-          }
+    },
     data: () => ({
       companies: ['GRIFOLS', 'ALMIRALL']
     })

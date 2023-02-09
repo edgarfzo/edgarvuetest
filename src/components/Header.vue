@@ -45,21 +45,9 @@
       group: null,
       items: [
         {
-          title: 'Foo',
+          title: 'SignOut',
           value: 'foo',
           link:'/signin'
-        },
-        {
-          title: 'Bar',
-          value: 'bar',
-        },
-        {
-          title: 'Fizz',
-          value: 'fizz',
-        },
-        {
-          title: 'Buzz',
-          value: 'buzz',
         },
       ],
     }),

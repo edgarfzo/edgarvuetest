@@ -89,7 +89,6 @@ import router from '@/router'
     methods: {
         async loginUser (){
           await useAppStore().login(getAuth(), this.email, this.password)
-          console.log(useAppStore().currentUser.email)
           router.push({ path: `/home/${this.type}` })
         },
         register (){
