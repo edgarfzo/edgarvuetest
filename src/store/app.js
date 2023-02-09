@@ -53,6 +53,7 @@ export const useAppStore = defineStore('app', {
     try {
     const response = await signInWithEmailAndPassword(auth, email, password)
     if (response) {
+      this.isLoggedIn = true
       this.currentUser =  response.user
     }
     } catch  (e) {
@@ -63,6 +64,7 @@ export const useAppStore = defineStore('app', {
   },
 
   async logOut(auth){
+      this.isLoggedIn = false
       this.user = null
       await signOut(auth)
       

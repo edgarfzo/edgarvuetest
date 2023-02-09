@@ -90,6 +90,7 @@ import router from '@/router'
         async loginUser (){
           await useAppStore().login(getAuth(), this.email, this.password)
           console.log(useAppStore().currentUser.email)
+          router.push({ path: `/home/${this.type}` })
         },
         register (){
             router.push({ path: `/signup/${this.type}` })
