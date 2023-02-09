@@ -8,6 +8,7 @@
       </v-col>
     </v-row>
     <v-row>
+      {{  this.type  }} homepage
       <v-col
       class="pa-0"
       cols="12">
@@ -35,15 +36,19 @@ import { useAppStore } from '@/store/app'
 import Header from '@/components/Header.vue'
 import Search from '@/components/Search.vue'
 import CompanyCard from '@/components/CompanyCard.vue'
-  export default{
+
+  export default {
     name: 'Home',
     components: {
     Header,
     Search,
     CompanyCard
-}, 
-data: () => ({
-  companies: ['GRIFOLS', 'ALMIRALL']
-})
+    }, 
+    props: {
+          type: String
+    },
+    data: () => ({
+      companies: ['GRIFOLS', 'ALMIRALL']
+    })
   }
 </script>

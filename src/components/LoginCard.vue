@@ -64,6 +64,7 @@
 <script>
 import { getAuth, sendSignInLinkToEmail, createUserWithEmailAndPassword } from "firebase/auth"
 import { useAppStore } from '@/store/app'
+import { mapStores } from 'pinia'
 import router from '@/router'
   export default {
     name: 'LoginCard',
@@ -76,6 +77,7 @@ import router from '@/router'
         type: String
     },
     computed:{
+      ...mapStores(useAppStore),
         color() {
             if(this.type==='healthcare') {
                 return 'black'
@@ -85,11 +87,13 @@ import router from '@/router'
         }
     },
     methods: {
-        loginUser (){
-            
+        async loginUser (){
+          await useAppStore().login(getAuth(), this.email, this.password)
+          router.push({ path: `/home/${this.type}` })
         },
         register (){
             router.push({ path: `/signup/${this.type}` })
     }
-  }}
+  },
+   }
 </script>

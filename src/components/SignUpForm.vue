@@ -54,6 +54,7 @@
           :rules="[required]"
           clearable
           label="Password"
+          type="password"
           placeholder="Enter your password"
         ></v-text-field>
 
@@ -62,6 +63,7 @@
           :readonly="loading"
           :rules="[required]"
           clearable
+          type="password"
           label="Enter Password again"
           placeholder="Enter your password again"
         ></v-text-field>
@@ -108,6 +110,9 @@
 </template>
 
 <script>
+import { useAppStore } from '@/store/app'
+import { getAuth } from 'firebase/auth'
+import router from '@/router'
 export default {
     name: 'SignUpForm',
     data: () => ({
@@ -138,12 +143,21 @@ export default {
         }
     },
     methods: {
-      onSubmit () {
+      async onSubmit () {
         if (!this.form) return
-
         this.loading = true
-
-        setTimeout(() => (this.loading = false), 2000)
+        const payload = {
+          username: this.username,
+          cif: this.cif,
+          enterprisetype: this.enterprisetype,
+          description: this.description,
+          contact: this.contact,
+          email: this.email,
+          department: this.department
+          }
+          await useAppStore().register(getAuth(), this.email, this.password1, payload)
+          this.loading = true
+          await router.push('/') 
       },
       required (v) {
         return !!v || 'Field is required'
