@@ -56,19 +56,22 @@ export const useAppStore = defineStore('app', {
     }
   },
   async login(auth, email, password, type){
-    const emailExisintg = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/Users.json?orderBy=email&equalTo=${email}`)).data
-    console.log(emailExisintg)
+    
     try {
     const response = await signInWithEmailAndPassword(auth, email, password)
     if (response) {
-      this.isLoggedIn = true
-      this.currentUser =  response.user
+      const emailExisting = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/Users.json?orderBy="email"&equalTo="${email}"`)).data
+      if(emailExisting[Object.keys(emailExisting)].enterpriseType===type) {
+        this.isLoggedIn = true
+        this.currentUser =  response.user
+      } else {
+        throw new Error(`This account is not registered as a ${type} enterprise`)
+      } 
     }
     } catch  (e) {
       alert(e.message)
     }
 
-    
   },
   async logOut(auth){
     await signOut(auth)
