@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
-import {createUserWithEmailAndPassword,
+import {getAuth,
+  createUserWithEmailAndPassword,
       fetchSignInMethodsForEmail,
       signInWithEmailAndPassword,
       signOut
@@ -26,16 +27,11 @@ export const useAppStore = defineStore('app', {
   async register(auth, email, password, payload){
       const existingEmail = await fetchSignInMethodsForEmail(auth, email)
 
+      var cifs = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/cifs/.json`)).data
+      var usernames  = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/usernames/.json`)).data
       
-      const registeredUsers = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/Users/.json`)).data
-      var cifs = []
-      var usernames = []
-      const keys = registeredUsers? Object.keys(registeredUsers): []
-      keys.forEach((el) => {
-        cifs.push(registeredUsers[el].cif)
-        usernames.push(registeredUsers[el].username)
-      })
-
+      cifs = cifs? cifs: []
+      usernames = usernames? usernames: []
 
       if(existingEmail.length>0){
       alert('Email already exists') 
@@ -46,6 +42,8 @@ export const useAppStore = defineStore('app', {
       {
         alert('username already exists') 
       } else {
+      await axios.post(`${import.meta.env.VITE_APP_DB_URL}/cifs/.json`, { cif: payload.cif })
+      await axios.post(`${import.meta.env.VITE_APP_DB_URL}/usernames/.json`, { username: payload.username })
       await axios.post(`${import.meta.env.VITE_APP_DB_URL}/Users/.json`, payload)
       const response = await createUserWithEmailAndPassword(auth,email, password)
       if (response) {
@@ -60,6 +58,9 @@ export const useAppStore = defineStore('app', {
     try {
     const response = await signInWithEmailAndPassword(auth, email, password)
     if (response) {
+      const idtoken = (await getAuth().currentUser.getIdToken())
+      console.log(idtoken)
+      //await axios.get(`https://test-e4100-default-rtdb.europe-west1.firebasedatabase.app/Users/zrz7bT5N7lR21deDNQDzxeoAH862.json?auth=${idtoken}"`)
       const emailExisting = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/Users.json?orderBy="email"&equalTo="${email}"`)).data
       if(emailExisting[Object.keys(emailExisting)].enterpriseType===type) {
         this.isLoggedIn = true

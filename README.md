@@ -55,3 +55,18 @@ pnpm lint
 ### Customize configuration
 
 See [Configuration Reference](https://vitejs.dev/config/).
+
+
+rules for db:
+
+{
+  "rules": {
+      "Users": {
+        "$uid": {
+        ".read": "$uid === auth.uid",
+    		".write": "$uid === auth.uid",
+      	".indexOn": ["email"]
+    }
+      }
+  }
+}
