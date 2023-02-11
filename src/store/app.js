@@ -1,17 +1,11 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
-import {getAuth,
-  createUserWithEmailAndPassword,
+import {
+      createUserWithEmailAndPassword,
       fetchSignInMethodsForEmail,
       signInWithEmailAndPassword,
       signOut
       } from 'firebase/auth'
-import { getDatabase,
-        ref, 
-        orderByChild,
-        query,
-        onValue
-      } from "firebase/database"
 
 export const useAppStore = defineStore('app', {
   state: () => ({
@@ -19,11 +13,7 @@ export const useAppStore = defineStore('app', {
     currentUser: null
   }),
   actions: {
-    // async signUpHealthcare (){
-    //   await axios.put(`${import.meta.env.VITE_APP_DB_URL}/.json`, { hello: 'orld' })
-    //    const response = await axios.get(`${import.meta.env.VITE_APP_DB_URL}/.json`)
-    //    this.stockData = response.data
-    // },
+
   async register(auth, email, password, payload){
       const existingEmail = await fetchSignInMethodsForEmail(auth, email)
       var cifs = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/cifs/.json`)).data
