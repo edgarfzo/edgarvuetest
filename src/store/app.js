@@ -26,27 +26,31 @@ export const useAppStore = defineStore('app', {
     // },
   async register(auth, email, password, payload){
       const existingEmail = await fetchSignInMethodsForEmail(auth, email)
-
       var cifs = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/cifs/.json`)).data
+      var existingCifs = []
       var usernames  = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/usernames/.json`)).data
-      
-      cifs = cifs? cifs: []
-      usernames = usernames? usernames: []
+      var existingUsernames = []
 
+      if(cifs) {
+      Object.keys(cifs).forEach((el) => existingCifs.push(cifs[el].cif))
+      }
+      if (usernames) {
+      Object.keys(usernames).forEach((el) => existingUsernames.push(usernames[el].username))
+      }
       if(existingEmail.length>0){
       alert('Email already exists') 
-      } else if(cifs.includes(payload.cif))
+      } else if(existingCifs.includes(payload.cif))
       {
         alert('cif already exists') 
-      } else if(usernames.includes(payload.username))
+      } else if(existingUsernames.includes(payload.username))
       {
         alert('username already exists') 
       } else {
-      await axios.post(`${import.meta.env.VITE_APP_DB_URL}/cifs/.json`, { cif: payload.cif })
-      await axios.post(`${import.meta.env.VITE_APP_DB_URL}/usernames/.json`, { username: payload.username })
-      await axios.post(`${import.meta.env.VITE_APP_DB_URL}/Users/.json`, payload)
       const response = await createUserWithEmailAndPassword(auth,email, password)
       if (response) {
+        await axios.post(`${import.meta.env.VITE_APP_DB_URL}/cifs/.json`, { cif: payload.cif })
+        await axios.post(`${import.meta.env.VITE_APP_DB_URL}/usernames/.json`, { username: payload.username })
+        await axios.put(`${import.meta.env.VITE_APP_DB_URL}/Users/${response.user.uid}.json`, payload)
           this.currentUser =  response.user
       } else {
           throw new Error('Unable to register user')
@@ -58,11 +62,9 @@ export const useAppStore = defineStore('app', {
     try {
     const response = await signInWithEmailAndPassword(auth, email, password)
     if (response) {
-      const idtoken = (await getAuth().currentUser.getIdToken())
-      console.log(idtoken)
-      //await axios.get(`https://test-e4100-default-rtdb.europe-west1.firebasedatabase.app/Users/zrz7bT5N7lR21deDNQDzxeoAH862.json?auth=${idtoken}"`)
-      const emailExisting = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/Users.json?orderBy="email"&equalTo="${email}"`)).data
-      if(emailExisting[Object.keys(emailExisting)].enterpriseType===type) {
+      const idtoken = (await auth.currentUser.getIdToken())
+      const emailExisting = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/Users/${response.user.uid}.json?auth=${idtoken}`)).data
+      if(emailExisting.enterpriseType===type) {
         this.isLoggedIn = true
         this.currentUser =  response.user
       } else {
