@@ -1,17 +1,12 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
-import {getAuth,
-  createUserWithEmailAndPassword,
+import {
+      deleteUser,
+      createUserWithEmailAndPassword,
       fetchSignInMethodsForEmail,
       signInWithEmailAndPassword,
       signOut
       } from 'firebase/auth'
-import { getDatabase,
-        ref, 
-        orderByChild,
-        query,
-        onValue
-      } from "firebase/database"
 
 export const useAppStore = defineStore('app', {
   state: () => ({
@@ -19,43 +14,56 @@ export const useAppStore = defineStore('app', {
     currentUser: null
   }),
   actions: {
-    // async signUpHealthcare (){
-    //   await axios.put(`${import.meta.env.VITE_APP_DB_URL}/.json`, { hello: 'orld' })
-    //    const response = await axios.get(`${import.meta.env.VITE_APP_DB_URL}/.json`)
-    //    this.stockData = response.data
-    // },
+
   async register(auth, email, password, payload){
       const existingEmail = await fetchSignInMethodsForEmail(auth, email)
-      var cifs = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/cifs/.json`)).data
-      var existingCifs = []
-      var usernames  = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/usernames/.json`)).data
-      var existingUsernames = []
 
-      if(cifs) {
-      Object.keys(cifs).forEach((el) => existingCifs.push(cifs[el].cif))
-      }
-      if (usernames) {
-      Object.keys(usernames).forEach((el) => existingUsernames.push(usernames[el].username))
-      }
-      if(existingEmail.length>0){
+      const existingCif = await axios.put(`${import.meta.env.VITE_APP_DB_URL}/cifs/${payload.cif}.json`,{ "uid": payload.username})
+      .catch(error => error.response.data)
+      const existingUsername = await axios.put(`${import.meta.env.VITE_APP_DB_URL}/usernames/${payload.username}.json`,{ "uid": payload.username})
+      .catch(error => error.response.data)
+
+      if(existingEmail.length>0 && !existingCif.error && !existingUsername.error)
+      {
+      axios.delete(`${import.meta.env.VITE_APP_DB_URL}/cifs/${payload.cif}.json`,{ "uid": payload.username})
+      axios.delete(`${import.meta.env.VITE_APP_DB_URL}/usernames/${payload.username}.json`,{ "uid": payload.username})
       alert('Email already exists') 
-      } else if(existingCifs.includes(payload.cif))
+      } 
+      else if(existingEmail.length>0 && existingCif.error && !existingUsername.error) 
       {
-        alert('cif already exists') 
-      } else if(existingUsernames.includes(payload.username))
-      {
-        alert('username already exists') 
-      } else {
-      const response = await createUserWithEmailAndPassword(auth,email, password)
-      if (response) {
-        await axios.post(`${import.meta.env.VITE_APP_DB_URL}/cifs/.json`, { cif: payload.cif })
-        await axios.post(`${import.meta.env.VITE_APP_DB_URL}/usernames/.json`, { username: payload.username })
-        await axios.put(`${import.meta.env.VITE_APP_DB_URL}/Users/${response.user.uid}.json`, payload)
-          this.currentUser =  response.user
-      } else {
-          throw new Error('Unable to register user')
+        axios.delete(`${import.meta.env.VITE_APP_DB_URL}/usernames/${payload.username}.json`,{ "uid": payload.username})
+        alert('Email already exists') 
       }
-    }
+      else if(existingEmail.length>0 && !existingCif.error && existingUsername.error) 
+      {
+        axios.delete(`${import.meta.env.VITE_APP_DB_URL}/cifs/${payload.cif}.json`,{ "uid": payload.username})
+        alert('Email already exists') 
+      }
+      else if(existingCif.error && !existingUsername.error) 
+      {
+        axios.delete(`${import.meta.env.VITE_APP_DB_URL}/usernames/${payload.username}.json`,{ "uid": payload.username})
+        alert('Cif already exists') 
+      }
+      else if(!existingCif.error && existingUsername.error) 
+      {
+        axios.delete(`${import.meta.env.VITE_APP_DB_URL}/cifs/${payload.cif}.json`,{ "uid": payload.username})
+        alert('Username already exists') 
+      }
+      else if(existingCif.error && existingUsername.error) 
+      {
+        alert('Cif already exists') 
+      }
+      else {
+      const response = await createUserWithEmailAndPassword(auth,email, password).catch(error =>
+        { 
+          axios.delete(`${import.meta.env.VITE_APP_DB_URL}/cifs/${payload.cif}.json`,{ "uid": payload.username})
+          axios.delete(`${import.meta.env.VITE_APP_DB_URL}/usernames/${payload.username}.json`,{ "uid": payload.username})
+          alert(error) 
+        })
+      payload.uid = response.user.uid
+      await axios.put(`${import.meta.env.VITE_APP_DB_URL}/Users/${response.user.uid}.json`, payload)
+      this.currentUser =  response.user
+  }
   },
   async login(auth, email, password, type){
     
