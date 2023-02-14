@@ -20,6 +20,11 @@ const routes = [
   { path: '/signup/:type',
    component: () => import('../views/SignUp.vue'), 
    props: true },
+
+   { path: '/personal', 
+   component: () => import('../views/Personal.vue'),
+   meta:{requiresAuth: true},
+   },
 ]
 
 const router = createRouter({
@@ -28,9 +33,9 @@ const router = createRouter({
 })
 
 router.beforeEach(async(to, from, next) => {
-if(to.matched.some((record)=> record.meta.requiresAuth) && import.meta.env.VITE_APP_ENV!='DEV') {
+  console.log('userLoggedIn ?' ,useAppStore().isLoggedIn)
+if(to.matched.some((record)=> record.meta.requiresAuth)) {
   if(!useAppStore().isLoggedIn) {
-      console.log('userloggedin: ', useAppStore().isLoggedIn)
       next('/signin') 
     } else {
       next()

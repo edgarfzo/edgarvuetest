@@ -1,8 +1,8 @@
 <template>
 
       <v-app-bar
-        color="primary"
-        prominent
+      :color="color"
+      prominent
       >
         <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
@@ -13,7 +13,8 @@
 
       <v-menu>
         <template v-slot:activator="{ props }">
-              <v-btn icon="mdi-account" v-bind="props"></v-btn>
+          
+              <v-btn  v-bind="props">{{ userInfo }}</v-btn>
             </template>
             <v-list>
               <v-list-item
@@ -38,19 +39,38 @@
       </v-navigation-drawer>
 </template>
   <script>
+  import { useAppStore } from '@/store/app'
   export default {
     name: 'Header',
+    props: {
+      type: String
+    },
     data: () => ({
       drawer: false,
       group: null,
       items: [
+      {
+          title: 'Profile Data',
+          link:'/personal'
+        },
         {
           title: 'SignOut',
-          value: 'foo',
           link:'/signin'
         },
       ],
     }),
+    computed:{
+        color() {
+            if(this.type==='healthcare') {
+                return 'black'
+            } else {
+                return 'white'
+            }
+        },
+        userInfo() {
+        return useAppStore().currentUser.username
+      }
+    },
     watch: {
       group () {
         this.drawer = false

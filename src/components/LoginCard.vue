@@ -1,7 +1,6 @@
 <template>
     <v-card
       class="mx-auto pa-12 pb-8"
-      elevation=""
       max-width="448"
       rounded="lg"
       :color="color"
@@ -89,7 +88,6 @@ import router from '@/router'
     methods: {
         async loginUser (){
           await useAppStore().login(getAuth(), this.email, this.password, this.type)
-          router.push({ path: `/home/${this.type}` })
         },
         
         register (){

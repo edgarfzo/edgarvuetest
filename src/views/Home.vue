@@ -4,7 +4,10 @@
       <v-col
       class="pa-0"
       cols="12">
-        <Header></Header>
+        <Header
+        :type="type"
+        >
+        </Header>
       </v-col>
     </v-row>
     <v-row>
@@ -49,6 +52,12 @@ import CompanyCard from '@/components/CompanyCard.vue'
     },
     data: () => ({
       companies: ['GRIFOLS', 'ALMIRALL']
-    })
+    }),
+    computed: {
+      userInfo() {
+        return useAppStore().currentUser
+      }
+    }
+
   }
 </script>

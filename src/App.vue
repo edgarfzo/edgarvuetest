@@ -38,19 +38,6 @@ import Footer from '@/components/Footer.vue'
   beforeMount() {
     useAppStore().logOut(getAuth())
   },
-  computed: {
-    isLoggedIn(){
-      return useAppStore().isLoggedIn
-    }
-  },
-  methods: {
-    handleSignOut() {
-      let auth = getAuth()
-      signOut(auth).then(()=>{
-        useAppStore().$reset
-        this.$router.push('/signin')
-      })}
-  }
 
 }
 </script>
