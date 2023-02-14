@@ -14,7 +14,8 @@ import {h} from 'vue'
 // Plugins
 import { registerPlugins } from '@/plugins'
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/app"
+import { getAnalytics, logEvent } from "firebase/analytics"
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -36,5 +37,7 @@ initializeApp(firebaseConfig);
 
 const app = createApp(App)
 registerPlugins(app)
+const analytics = getAnalytics();
+logEvent(analytics, 'notification_received')
 
 app.mount('#app')

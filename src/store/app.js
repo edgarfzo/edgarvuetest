@@ -32,12 +32,12 @@ export const useAppStore = defineStore('app', {
       else if(existingEmail.length>0 && existingCif.error && !existingUsername.error) 
       {
         axios.delete(`${import.meta.env.VITE_APP_DB_URL}/usernames/${payload.username}.json`,{ "uid": payload.username})
-        alert('Email already exists') 
+        alert('Email and Cif already exists') 
       }
       else if(existingEmail.length>0 && !existingCif.error && existingUsername.error) 
       {
         axios.delete(`${import.meta.env.VITE_APP_DB_URL}/cifs/${payload.cif}.json`,{ "uid": payload.username})
-        alert('Email already exists') 
+        alert('Email and Username already exists') 
       }
       else if(existingCif.error && !existingUsername.error) 
       {
@@ -51,7 +51,7 @@ export const useAppStore = defineStore('app', {
       }
       else if(existingCif.error && existingUsername.error) 
       {
-        alert('Cif already exists') 
+        alert('Cif and Username already exists') 
       }
       else {
       const response = await createUserWithEmailAndPassword(auth,email, password).catch(error =>
