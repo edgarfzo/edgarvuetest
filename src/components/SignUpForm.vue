@@ -159,7 +159,7 @@ export default {
           enterpriseType: this.type
           }
           await useAppStore().register(getAuth(), this.email, this.password1, payload)
-          this.loading = true
+          this.loading = false
           await router.push('/') 
       },
       required (v) {
