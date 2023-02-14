@@ -26,6 +26,7 @@
         ></v-text-field>
         <v-select
             v-model="enterprisetype"
+            :rules="[required]"
             :items="listtypes"
             label="Select your sector"
             multiple
@@ -68,7 +69,9 @@
           placeholder="Enter your password again"
         ></v-text-field>
 
-        <v-checkbox v-model="checkbox">
+        <v-checkbox 
+        :rules="[required]"
+        v-model="checkbox">
       <template v-slot:label>
         <div>
           I agree the 
@@ -158,9 +161,13 @@ export default {
           department: this.department,
           enterpriseType: this.type
           }
+          if(this.password1!=this.password2) {
+            alert('Passwords are not matching')
+          } else {
           await useAppStore().register(getAuth(), this.email, this.password1, payload)
           this.loading = false
           await router.push('/') 
+          }
       },
       required (v) {
         return !!v || 'Field is required'

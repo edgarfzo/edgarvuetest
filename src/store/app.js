@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import {
-      deleteUser,
       createUserWithEmailAndPassword,
       fetchSignInMethodsForEmail,
       signInWithEmailAndPassword,
