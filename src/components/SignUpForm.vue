@@ -138,7 +138,6 @@ export default {
     },
     computed:{
         color() {
-          console.log(this.type)
             if(this.type==='healthcare') {
                 return 'black'
             } else {
@@ -147,9 +146,7 @@ export default {
         }
     },
     methods: {
-      
       async onSubmit () {
-        console.log(this.type)
         if (!this.form) return
         this.loading = true
         const payload = {

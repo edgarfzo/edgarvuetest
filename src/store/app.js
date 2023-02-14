@@ -4,14 +4,18 @@ import {
       createUserWithEmailAndPassword,
       fetchSignInMethodsForEmail,
       signInWithEmailAndPassword,
-      signOut
+      signOut,
+      browserSessionPersistence,
+      setPersistence,
       } from 'firebase/auth'
+import router from '@/router'
 
 export const useAppStore = defineStore('app', {
   state: () => ({
     isLoggedIn: false,
     currentUser: null
   }),
+  persist: true,
   actions: {
 
   async register(auth, email, password, payload){
@@ -69,11 +73,13 @@ export const useAppStore = defineStore('app', {
     try {
     const response = await signInWithEmailAndPassword(auth, email, password)
     if (response) {
+      await setPersistence(auth, browserSessionPersistence)
       const idtoken = (await auth.currentUser.getIdToken())
       const emailExisting = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/Users/${response.user.uid}.json?auth=${idtoken}`)).data
       if(emailExisting.enterpriseType===type) {
         this.isLoggedIn = true
-        this.currentUser =  response.user
+        this.currentUser =  emailExisting
+        router.push({ path: `/home/${type}` })
       } else {
         throw new Error(`This account is not registered as a ${type} enterprise`)
       } 
@@ -84,9 +90,9 @@ export const useAppStore = defineStore('app', {
 
   },
   async logOut(auth){
-    await signOut(auth)
+      await signOut(auth)
       this.isLoggedIn = false
-      this.user = null
+      this.currentUser = null
       
       
   },

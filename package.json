@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@mdi/font": "7.0.96",
+    "@vueuse/core": "^9.12.0",
     "airplane": "^0.2.30",
     "apexcharts": "^3.36.3",
     "axios": "^1.2.3",
