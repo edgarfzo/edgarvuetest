@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import {
+
       createUserWithEmailAndPassword,
       fetchSignInMethodsForEmail,
       signInWithEmailAndPassword,
@@ -13,7 +14,8 @@ import router from '@/router'
 export const useAppStore = defineStore('app', {
   state: () => ({
     isLoggedIn: false,
-    currentUser: null
+    currentUser: null,
+    posts: {}
   }),
   persist: true,
   actions: {
@@ -79,6 +81,7 @@ export const useAppStore = defineStore('app', {
       if(emailExisting.enterpriseType===type) {
         this.isLoggedIn = true
         this.currentUser =  emailExisting
+        await this.getPosts(auth)
         router.push({ path: `/home/${type}` })
       } else {
         throw new Error(`This account is not registered as a ${type} enterprise`)
@@ -92,10 +95,14 @@ export const useAppStore = defineStore('app', {
   async logOut(auth){
       await signOut(auth)
       this.isLoggedIn = false
-      this.currentUser = null
-      
-      
+      this.currentUser = null 
+      this.posts = null 
   },
+  async getPosts(auth){
+    const idtoken = (await auth.currentUser.getIdToken())
+    const response = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/Posts/${auth.currentUser.uid}.json?auth=${idtoken}`)).data
+    this.posts = response
+},
   }})
 
 
