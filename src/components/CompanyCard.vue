@@ -6,9 +6,8 @@
         :src="Logo"
         cover
       >
-        <v-card-title>{{CompanyName}}</v-card-title>
       </v-img>
-  
+      <v-card-title>{{CompanyName}}</v-card-title>
       <v-card-subtitle class="pt-4">
         {{Title}}
       </v-card-subtitle>

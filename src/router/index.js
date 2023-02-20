@@ -4,12 +4,21 @@ import{ getCurrentUser } from "@/firebase-utils"
 import { useAppStore } from '@/store/app'
 
 const routes = [
-  {path:'/' ,
+  { path:'/' ,
    redirect:'/signin'},
 
-  { path: '/home/:type', 
-  component: () => import('../views/Home.vue'),
-  props: true,
+  { path: '/home/healthcare', 
+  component: () => import('../views/HomeHealthcare.vue'),
+  meta:{requiresAuth: true},
+  },
+
+  { path: '/home/services', 
+  component: () => import('../views/HomeServices.vue'),
+  meta:{requiresAuth: true},
+  },
+
+  { path: '/createproject', 
+  component: () => import('../views/CreateProject.vue'),
   meta:{requiresAuth: true},
   },
 

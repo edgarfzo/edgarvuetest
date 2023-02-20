@@ -5,23 +5,27 @@
       class="pa-0"
       cols="12">
         <Header
-        :type="type"
+        type="healthcare"
         >
         </Header>
       </v-col>
     </v-row>
-    <v-row>
-      {{  this.type  }} homepage
-      <v-btn
-      @click="addPosts"
-      >Test</v-btn>
+    UnassignedPosts
+    <v-row v-for="item in unassignedPosts">
+      
       <v-col
-      class="pa-0"
+      class="pa-2"
       cols="12">
-        <Search></Search>
+        <CompanyCard
+        :CompanyName="item.company"
+        :Description="item.description"
+        :Title="item.title"
+        :Logo="item.logo">
+      </CompanyCard>
       </v-col>
     </v-row>
-    <v-row v-for="item in posts">
+    Assigned Posts
+    <v-row v-for="item in assignedPosts">
       <v-col
       class="pa-2"
       cols="12">
@@ -50,26 +54,19 @@ import CompanyCard from '@/components/CompanyCard.vue'
     Search,
     CompanyCard
     }, 
-    props: {
-          type: String
-    },
-    data: () => ({
-      posts: useAppStore().posts
-    }),
     computed: {
       userInfo() {
         return useAppStore().currentUser
-      }
-    },
-    methods: {
-      async addPosts() {
-       await useAppStore().$patch({posts : null})
-       console.log(useAppStore().posts)
+      },
+      unassignedPosts() {
+        return useAppStore().unassignedPosts
+      },
+      assignedPosts() {
+        return useAppStore().assignedPosts
       }
     },
   async beforeMount() {
-    await useAppStore().getPosts(getAuth())
+    await useAppStore().getPosts(getAuth(),{})
   }
-
   }
 </script>
