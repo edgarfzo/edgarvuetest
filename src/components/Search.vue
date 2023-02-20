@@ -8,32 +8,40 @@ class="flex-grow-0 flex-shrink-1 d-flex">
     <v-col>
         <v-select
         :items="items"
+        multiple
         label="AREA"
-        density="compact">
+        density="compact"
+        v-model="myValue">
 
         </v-select>
     </v-col>
     <v-col>
         <v-select
         :items="items"
+        multiple
         label="COMPANY"
-        density="compact">
+        density="compact"
+        v-model="myValue">
             
         </v-select>
     </v-col>
     <v-col>
         <v-select
         :items="items"
+        multiple
         label="DEPARTMENT"
-        density="compact">
+        density="compact"
+        v-model="myValue">
             
         </v-select>
     </v-col>
     <v-col>
         <v-select
         :items="items"
+        multiple
         label="LOCATION"
-        density="compact">
+        density="compact"
+        v-model="myValue">
             
         </v-select>
     </v-col>
@@ -42,9 +50,12 @@ class="flex-grow-0 flex-shrink-1 d-flex">
 </template>
 
 <script>
+import { useAppStore } from '@/store/app'
+import { getAuth } from "firebase/auth"
 export default {
     name: 'SearchComponent',
     data: () => ({
+      myValue: [],
   items: [
         {
           title: 'Foo',
@@ -64,6 +75,11 @@ export default {
         },
       ],
 }),
+watch: {
+  async myValue(){
+    await useAppStore().getPosts(getAuth(), this.myValue)
+  }
+}
 }
 
 </script>

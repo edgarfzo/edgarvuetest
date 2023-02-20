@@ -28,8 +28,8 @@ import { useAppStore } from '../store/app'
     components:{
         LoginCard
     },
-    beforeMount() {
-      useAppStore().logOut(getAuth())
+    async beforeMount() {
+      await useAppStore().logOut(getAuth())
     }
   }
 </script>

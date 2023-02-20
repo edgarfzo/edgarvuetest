@@ -3,21 +3,19 @@
     class="flex-grow-0 flex-shrink-1 d-flex">
       <v-img
         class="align-end text-white"
-        height="200"
-        src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+        :src="Logo"
         cover
       >
-        <v-card-title>{{ CompanyName }}</v-card-title>
       </v-img>
-  
+      <v-card-title>{{CompanyName}}</v-card-title>
       <v-card-subtitle class="pt-4">
-        Number 10
+        {{Title}}
       </v-card-subtitle>
   
       <v-card-text>
-        <div>Whitehaven Beach</div>
+        <div></div>
   
-        <div>Whitsunday Island, Whitsunday Islands</div>
+        <div> {{Description}}</div>
       </v-card-text>
   
       <v-card-actions>
@@ -32,10 +30,15 @@
     </v-card>
   </template>
   <script>
+import { useAppStore } from '@/store/app'
+import { getAuth } from "firebase/auth"
   export default {
     name:'CompanyCard',
     props:{
-        CompanyName: String
-    }
+        CompanyName: String,
+        Title: String,
+        Description: String,
+        Logo: String
+    },
   }
 </script>

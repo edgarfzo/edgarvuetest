@@ -5,36 +5,43 @@
       class="pa-0"
       cols="12">
         <Header
-        :type="type"
+        type="healthcare"
         >
         </Header>
       </v-col>
     </v-row>
-    <v-row>
-      {{  this.type  }} homepage
-      <v-col
-      class="pa-0"
-      cols="12">
-        <Search></Search>
-      </v-col>
-    </v-row>
-    <v-row v-for="item in companies">
+    UnassignedPosts
+    <v-row v-for="item in unassignedPosts">
+      
       <v-col
       class="pa-2"
       cols="12">
         <CompanyCard
-        :CompanyName="item">
+        :CompanyName="item.company"
+        :Description="item.description"
+        :Title="item.title"
+        :Logo="item.logo">
+      </CompanyCard>
+      </v-col>
+    </v-row>
+    Assigned Posts
+    <v-row v-for="item in assignedPosts">
+      <v-col
+      class="pa-2"
+      cols="12">
+        <CompanyCard
+        :CompanyName="item.company"
+        :Description="item.description"
+        :Title="item.title"
+        :Logo="item.logo">
       </CompanyCard>
       </v-col>
     </v-row>
   </v-container>
-  
-
-
-
 </template>
 
 <script>
+import { getAuth } from "firebase/auth"
 import { useAppStore } from '@/store/app'
 import Header from '@/components/Header.vue'
 import Search from '@/components/Search.vue'
@@ -47,17 +54,19 @@ import CompanyCard from '@/components/CompanyCard.vue'
     Search,
     CompanyCard
     }, 
-    props: {
-          type: String
-    },
-    data: () => ({
-      companies: ['GRIFOLS', 'ALMIRALL']
-    }),
     computed: {
       userInfo() {
         return useAppStore().currentUser
+      },
+      unassignedPosts() {
+        return useAppStore().unassignedPosts
+      },
+      assignedPosts() {
+        return useAppStore().assignedPosts
       }
-    }
-
+    },
+  async beforeMount() {
+    await useAppStore().getPosts(getAuth(),{})
+  }
   }
 </script>

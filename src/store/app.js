@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
+import { filterPosts } from './utils'
 import axios from 'axios'
 import {
+
       createUserWithEmailAndPassword,
       fetchSignInMethodsForEmail,
       signInWithEmailAndPassword,
@@ -13,7 +15,9 @@ import router from '@/router'
 export const useAppStore = defineStore('app', {
   state: () => ({
     isLoggedIn: false,
-    currentUser: null
+    currentUser: null,
+    assignedPosts: {},
+    unassignedPosts: {},
   }),
   persist: true,
   actions: {
@@ -79,6 +83,7 @@ export const useAppStore = defineStore('app', {
       if(emailExisting.enterpriseType===type) {
         this.isLoggedIn = true
         this.currentUser =  emailExisting
+        await this.getPosts(auth)
         router.push({ path: `/home/${type}` })
       } else {
         throw new Error(`This account is not registered as a ${type} enterprise`)
@@ -92,10 +97,29 @@ export const useAppStore = defineStore('app', {
   async logOut(auth){
       await signOut(auth)
       this.isLoggedIn = false
-      this.currentUser = null
-      
-      
+      this.currentUser = null 
+      this.assignedPosts= {}
+      this.unassignedPosts= {}
   },
+  async getPosts(auth,filters){
+    const idtoken = (await auth.currentUser.getIdToken())
+    const response = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/Posts/${auth.currentUser.uid}.json?auth=${idtoken}`)).data
+    if(response)
+    {
+      console.log(response)
+    this.assignedPosts = filterPosts(response,'assigned')
+    this.unassignedPosts = filterPosts(response,'unassigned')
+    }
+},
+  async addPost(auth,payload){
+    const idtoken = (await auth.currentUser.getIdToken())
+    const user = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/Users/${auth.currentUser.uid}.json?auth=${idtoken}`)).data
+    const company = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/Companies/${user.company}.json?`)).data
+    payload.logo = company.logo
+    payload.company = user.company
+    payload.assigned = false
+    await axios.post(`${import.meta.env.VITE_APP_DB_URL}/Posts/${auth.currentUser.uid}.json`, payload)
+},
   }})
 
 

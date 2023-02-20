@@ -24,6 +24,14 @@
           clearable
           label="CIF"
         ></v-text-field>
+        <v-text-field
+          v-model="company"
+          :readonly="loading"
+          :rules="[required]"
+          class="mb-2"
+          clearable
+          label="Company"
+        ></v-text-field>
         <v-select
             v-model="enterprisetype"
             :rules="[required]"
@@ -124,6 +132,7 @@ export default {
       username: null,
       cif: null,
       enterprisetype: null,
+      company: null,
       description: null,
       contact: null,
       email: null,
@@ -156,7 +165,8 @@ export default {
           contact: this.contact,
           email: this.email,
           department: this.department,
-          enterpriseType: this.type
+          enterpriseType: this.type,
+          company: this.company
           }
           if(this.password1!=this.password2) {
             alert('Passwords are not matching')

@@ -11,31 +11,22 @@
         <v-spacer></v-spacer>
 
 
-      <v-menu>
-        <template v-slot:activator="{ props }">
-          
-              <v-btn  v-bind="props">{{ userInfo }}</v-btn>
-            </template>
-            <v-list>
-              <v-list-item
-                v-for="(item, i) in items"
-                :key="i"
-                :to="item.link"
-              >
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
-              </v-list-item>
-            </v-list>
-      </v-menu>
+    {{ userInfo }}
+<br/>
       </v-app-bar>
 
       <v-navigation-drawer
+        image="https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg"
+        permanent
+        theme="dark"
         v-model="drawer"
-        location="left"
-        temporary
       >
-        <v-list
-          :items="items"
-        ></v-list>
+        <v-list nav>
+          <v-list-item prepend-icon="mdi-plus" title="Create a new Project" to="/createproject"></v-list-item>
+          <v-list-item prepend-icon="mdi-account" title="Profile settings" to="/personal"></v-list-item>
+          <v-list-item prepend-icon="mdi-logout" title="Sign Out" to="/signin"></v-list-item>
+          <v-list-item prepend-icon="mdi-information-outline" title="About" to="/signin'"></v-list-item>
+        </v-list>
       </v-navigation-drawer>
 </template>
   <script>
@@ -48,16 +39,6 @@
     data: () => ({
       drawer: false,
       group: null,
-      items: [
-      {
-          title: 'Profile Data',
-          link:'/personal'
-        },
-        {
-          title: 'SignOut',
-          link:'/signin'
-        },
-      ],
     }),
     computed:{
         color() {
