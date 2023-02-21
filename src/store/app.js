@@ -116,7 +116,9 @@ export const useAppStore = defineStore('app', {
     const idtoken = (await auth.currentUser.getIdToken())
     const user = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/Users/${auth.currentUser.uid}.json?auth=${idtoken}`)).data
     const company = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/Companies/${user.company}.json?`)).data
+    if(company.logo) {
     payload.logo = company.logo
+    }
     payload.company = user.company
     payload.assigned = false
     const post = (await axios.post(`${import.meta.env.VITE_APP_DB_URL}/Posts/${auth.currentUser.uid}.json`, payload)).data
