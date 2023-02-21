@@ -133,20 +133,11 @@ export const useAppStore = defineStore('app', {
  async getPDF(path) {
 
   axios.get(`https://firebasestorage.googleapis.com/v0/b/${import.meta.env.VITE_APP_PROJECT_ID}.appspot.com/o/${path}.pdf?alt=media`,
-  { headers: {
-    "access-control-allow-origin": "*",
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    'Access-Control-Allow-Methods': '*',
-  },
+  {
     responseType: 'blob' })
-    .then(response => {
-      console.log(response)
-
-      let blob = new Blob([response.data], { type: 'application/pdf' }),
-        url = window.URL.createObjectURL(blob)
-
-      window.open(url) // Mostly the same, I was just experimenting with different approaches, tried link.click, iframe and other solutions
-    })
+  .then((response) => {
+    saveAs(response.data, `${path}.pdf`)
+  })
   }}})
 
 
