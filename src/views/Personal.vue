@@ -1,12 +1,26 @@
 <template>
-   
+  <v-container class="flex-grow-1 d-flex flex-column flex-nowrap align-stretch">
+    <v-row>
+      <v-col
+      class="pa-0"
+      cols="12">
+        <Header
+        type="healthcare"
+        >
+        </Header>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
+
 <script>
-import { getAuth } from 'firebase/auth'
+
+import Header from '@/components/Header.vue'
+
   export default {
-    name: 'PersonalPage',
-    beforeMount(){
-        console.log(getAuth())
-      }
-    }
+    name: 'Home',
+    components: {
+    Header,
+  }
+  }
 </script>

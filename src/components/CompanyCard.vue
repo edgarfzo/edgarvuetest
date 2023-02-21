@@ -19,7 +19,7 @@
       </v-card-text>
   
       <v-card-actions>
-        <v-btn color="orange">
+        <v-btn color="orange" @click="downloadPDF">
           Share
         </v-btn>
   
@@ -38,7 +38,13 @@ import { getAuth } from "firebase/auth"
         CompanyName: String,
         Title: String,
         Description: String,
-        Logo: String
+        Logo: String,
+        PostId: String
     },
+    methods: {
+      async downloadPDF () {
+        await useAppStore().getPDF(this.PostId)
+      }
+    }
   }
 </script>

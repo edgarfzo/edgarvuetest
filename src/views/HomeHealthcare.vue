@@ -20,7 +20,8 @@
         :CompanyName="item.company"
         :Description="item.description"
         :Title="item.title"
-        :Logo="item.logo">
+        :Logo="item.logo"
+        :PostId="item.postid">
       </CompanyCard>
       </v-col>
     </v-row>
@@ -33,7 +34,8 @@
         :CompanyName="item.company"
         :Description="item.description"
         :Title="item.title"
-        :Logo="item.logo">
+        :Logo="item.logo"
+        :PostId="item.postid">
       </CompanyCard>
       </v-col>
     </v-row>

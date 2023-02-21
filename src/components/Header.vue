@@ -10,8 +10,6 @@
 
         <v-spacer></v-spacer>
 
-
-    {{ userInfo }}
 <br/>
       </v-app-bar>
 
@@ -22,10 +20,11 @@
         v-model="drawer"
       >
         <v-list nav>
+          <v-list-item prepend-icon="mdi-home" title="Home" to="/home/healthcare"></v-list-item>
           <v-list-item prepend-icon="mdi-plus" title="Create a new Project" to="/createproject"></v-list-item>
           <v-list-item prepend-icon="mdi-account" title="Profile settings" to="/personal"></v-list-item>
           <v-list-item prepend-icon="mdi-logout" title="Sign Out" to="/signin"></v-list-item>
-          <v-list-item prepend-icon="mdi-information-outline" title="About" to="/signin'"></v-list-item>
+          <v-list-item prepend-icon="mdi-information-outline" title="About" to="/signin"></v-list-item>
         </v-list>
       </v-navigation-drawer>
 </template>
