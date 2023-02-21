@@ -1,4 +1,6 @@
 import { defineStore } from 'pinia'
+import { saveAs } from 'file-saver'
+import FormData from 'form-data'
 import { filterPosts } from './utils'
 import axios from 'axios'
 import {
@@ -106,20 +108,36 @@ export const useAppStore = defineStore('app', {
     const response = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/Posts/${auth.currentUser.uid}.json?auth=${idtoken}`)).data
     if(response)
     {
-      console.log(response)
     this.assignedPosts = filterPosts(response,'assigned')
     this.unassignedPosts = filterPosts(response,'unassigned')
     }
 },
-  async addPost(auth,payload){
+  async addPost(auth,payload,file){
     const idtoken = (await auth.currentUser.getIdToken())
     const user = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/Users/${auth.currentUser.uid}.json?auth=${idtoken}`)).data
     const company = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/Companies/${user.company}.json?`)).data
     payload.logo = company.logo
     payload.company = user.company
     payload.assigned = false
-    await axios.post(`${import.meta.env.VITE_APP_DB_URL}/Posts/${auth.currentUser.uid}.json`, payload)
+    const post = (await axios.post(`${import.meta.env.VITE_APP_DB_URL}/Posts/${auth.currentUser.uid}.json`, payload)).data
+    payload.postid = post.name
+    await axios.put(`${import.meta.env.VITE_APP_DB_URL}/Posts/${auth.currentUser.uid}/${post.name}.json`, payload)
+    await this.postPDF(file,post.name)
 },
-  }})
+ async postPDF(file,path) {
+  let data = new FormData()
+  data.append('file', file)
+  await axios.post(`https://firebasestorage.googleapis.com/v0/b/${import.meta.env.VITE_APP_PROJECT_ID}.appspot.com/o/${path}.pdf`,data)
+  
+ }, 
+ async getPDF(path) {
+
+  axios.get(`https://firebasestorage.googleapis.com/v0/b/${import.meta.env.VITE_APP_PROJECT_ID}.appspot.com/o/${path}.pdf?alt=media`,
+  {
+    responseType: 'blob' })
+  .then((response) => {
+    saveAs(response.data, `${path}.pdf`)
+  })
+  }}})
 
 

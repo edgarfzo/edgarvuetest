@@ -16,6 +16,14 @@
           clearable
           label="Title"
         ></v-text-field>
+        <v-text-field
+          v-model="country"
+          :readonly="loading"
+          :rules="[required]"
+          class="mb-2"
+          clearable
+          label="Country"
+        ></v-text-field>
         <v-textarea
       v-model="description"
       counter
@@ -23,6 +31,8 @@
       maxlength="500"
       single-line
     ></v-textarea>
+
+  <v-file-input label="File input" @change="onFileChanged"></v-file-input>
 
         <br>
 
@@ -53,6 +63,7 @@ export default {
     data: () => ({
     title: null,
     description: null,
+    country: null, 
     loading: false,
     }),
     props: {
@@ -71,12 +82,16 @@ export default {
       async onSubmit () {
         const payload = {
           title: this.title,
-          description: this.description
+          description: this.description,
+          country: this.country,
           }
-          await useAppStore().addPost(getAuth(), payload)
+          await useAppStore().addPost(getAuth(), payload, this.selectedFile)
           this.loading = false
           await router.push('/home/healthcare') 
       },
+    async onFileChanged(e) {
+      this.selectedFile = e.target.files[0]
+    },
       required (v) {
         return !!v || 'Field is required'
       },
