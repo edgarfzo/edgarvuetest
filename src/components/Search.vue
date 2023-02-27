@@ -7,42 +7,20 @@ outlined
 class="flex-grow-0 flex-shrink-1 d-flex">
     <v-col>
         <v-select
-        :items="items"
+        :items="countries"
         multiple
-        label="AREA"
+        label="Country"
         density="compact"
-        v-model="myValue">
-
+        v-model="selectedCountry">
         </v-select>
     </v-col>
     <v-col>
         <v-select
-        :items="items"
+        :items="companies"
         multiple
-        label="COMPANY"
+        label="Company"
         density="compact"
-        v-model="myValue">
-            
-        </v-select>
-    </v-col>
-    <v-col>
-        <v-select
-        :items="items"
-        multiple
-        label="DEPARTMENT"
-        density="compact"
-        v-model="myValue">
-            
-        </v-select>
-    </v-col>
-    <v-col>
-        <v-select
-        :items="items"
-        multiple
-        label="LOCATION"
-        density="compact"
-        v-model="myValue">
-            
+        v-model="selectedCompany">   
         </v-select>
     </v-col>
 </v-row>
@@ -54,30 +32,23 @@ import { useAppStore } from '@/store/app'
 import { getAuth } from "firebase/auth"
 export default {
     name: 'SearchComponent',
+    props: {
+      companies: Array,
+      countries: Array,
+    },
     data: () => ({
-      myValue: [],
-  items: [
-        {
-          title: 'Foo',
-          value: 'foo',
-        },
-        {
-          title: 'Bar',
-          value: 'bar',
-        },
-        {
-          title: 'Fizz',
-          value: 'fizz',
-        },
-        {
-          title: 'Buzz',
-          value: 'buzz',
-        },
-      ],
+      selectedCompany: [],
+      selectedCountry: [],
 }),
+methods: {
+  filterCompanies (){
+    var test = Object.values(useAppStore().servicePosts).filter((el) => el.company.includes(this.selectedCompany))
+    useAppStore().$patch({servicePosts: test})
+  }
+},
 watch: {
-  async myValue(){
-    await useAppStore().getPosts(getAuth(), this.myValue)
+  selectedCompany(){
+    this.filterCompanies()
   }
 }
 }

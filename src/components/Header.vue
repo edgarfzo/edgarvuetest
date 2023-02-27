@@ -20,8 +20,8 @@
         v-model="drawer"
       >
         <v-list nav>
-          <v-list-item prepend-icon="mdi-home" title="Home" to="/home/healthcare"></v-list-item>
-          <v-list-item prepend-icon="mdi-plus" title="Create a new Project" to="/createproject"></v-list-item>
+          <v-list-item prepend-icon="mdi-home" title="Home" :to="homeRediret"></v-list-item>
+          <v-list-item v-if="this.type==='healthcare'" prepend-icon="mdi-plus" title="Create a new Project" to="/createproject"></v-list-item>
           <v-list-item prepend-icon="mdi-account" title="Profile settings" to="/personal"></v-list-item>
           <v-list-item prepend-icon="mdi-logout" title="Sign Out" to="/signin"></v-list-item>
           <v-list-item prepend-icon="mdi-information-outline" title="About" to="/signin"></v-list-item>
@@ -45,6 +45,13 @@
                 return 'black'
             } else {
                 return 'white'
+            }
+        },
+        homeRediret() {
+            if(this.type==='healthcare') {
+                return '/home/healthcare'
+            } else {
+                return '/home/services'
             }
         },
         userInfo() {

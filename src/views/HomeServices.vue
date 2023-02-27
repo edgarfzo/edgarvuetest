@@ -11,31 +11,16 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-btn
-      @click="addPosts"
-      >Test</v-btn>
       <v-col
-     
       class="pa-0"
       cols="12">
-        <Search></Search>
+        <Search
+        :companies="companies"
+        :countries="countries">
+        </Search>
       </v-col>
     </v-row>
-    UnassignedPosts
-    <v-row v-for="item in unassignedPosts">
-      <v-col
-      class="pa-2"
-      cols="12">
-        <CompanyCard
-        :CompanyName="item.company"
-        :Description="item.description"
-        :Title="item.title"
-        :Logo="item.logo">
-      </CompanyCard>
-      </v-col>
-    </v-row>
-    Assigned Posts
-    <v-row v-for="item in assignedPosts">
+    <v-row v-for="item in servicePosts">
       <v-col
       class="pa-2"
       cols="12">
@@ -68,21 +53,18 @@ import CompanyCard from '@/components/CompanyCard.vue'
       userInfo() {
         return useAppStore().currentUser
       },
-      unassignedPosts() {
-        return useAppStore().unassignedPosts
+      servicePosts() {
+        return useAppStore().servicePosts
       },
-      assignedPosts() {
-        return useAppStore().assignedPosts
-      }
-    },
-    methods: {
-      async addPosts() {
-       await useAppStore().$patch({posts : null})
-       console.log(useAppStore().posts)
+      companies() {
+        return useAppStore().uniqueCompanies
+      },
+      countries () {
+        return useAppStore().uniqueCountries
       }
     },
   async beforeMount() {
-    await useAppStore().getPosts(getAuth(),{})
+    await useAppStore().getPostsServices(getAuth(),{})
   }
   }
 </script>

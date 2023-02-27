@@ -10,7 +10,7 @@
   <v-row>
     <v-col>
         <LoginCard
-        type="healthcare"></LoginCard>
+        type="services"></LoginCard>
     </v-col>
     <v-col>
         <LoginCard
