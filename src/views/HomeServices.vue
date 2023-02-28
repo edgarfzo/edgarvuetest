@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import { watch } from 'vue'
 import { getAuth } from "firebase/auth"
 import { useAppStore } from '@/store/app'
 import Header from '@/components/Header.vue'
@@ -53,8 +54,9 @@ import CompanyCard from '@/components/CompanyCard.vue'
       userInfo() {
         return useAppStore().currentUser
       },
-      servicePosts() {
-        return useAppStore().servicePosts
+      servicePosts(filterCompanies, filterCountries) {
+        const posts = useAppStore().servicePosts
+        return posts
       },
       companies() {
         return useAppStore().uniqueCompanies
@@ -65,6 +67,11 @@ import CompanyCard from '@/components/CompanyCard.vue'
     },
   async beforeMount() {
     await useAppStore().getPostsServices(getAuth(),{})
-  }
-  }
+  },
+  mounted() {
+    const store = useAppStore()
+    watch(() => store.servicePosts, (newVal, oldVal) => {
+      console.log('Filters changed:', newVal, oldVal)
+    })
+  }}
 </script>

@@ -11,6 +11,7 @@ class="flex-grow-0 flex-shrink-1 d-flex">
         multiple
         label="Country"
         density="compact"
+        @change="filter"
         v-model="selectedCountry">
         </v-select>
     </v-col>
@@ -40,17 +41,30 @@ export default {
       selectedCompany: [],
       selectedCountry: [],
 }),
+computed: {
+  filter () {
+    console.log('hey')
+  }
+},
 methods: {
   filterCompanies (){
     var test = Object.values(useAppStore().servicePosts).filter((el) => el.company.includes(this.selectedCompany))
     useAppStore().$patch({servicePosts: test})
-  }
+  },
+  filterCountries (){
+    var test = Object.values(useAppStore().servicePosts).filter((el) => el.country.includes(this.selectedCountry))
+    useAppStore().$patch({servicePosts: test})
+  },
+
 },
 watch: {
   selectedCompany(){
     this.filterCompanies()
+  },
+  selectedCountry(){
+    this.filterCountries()
   }
-}
+},
 }
 
 </script>

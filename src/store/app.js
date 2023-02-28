@@ -110,6 +110,7 @@ export const useAppStore = defineStore('app', {
       this.servicePosts = {}
       this.uniqueCompanies= []
       this.uniqueCountries= []
+      this.filters = []
   },
   async getPosts(auth,filters){
     const idtoken = (await auth.currentUser.getIdToken())
