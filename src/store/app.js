@@ -22,7 +22,8 @@ export const useAppStore = defineStore('app', {
     unassignedPosts: {},
     servicePosts: {},
     uniqueCompanies: [],
-    uniqueCountries: []
+    uniqueCountries: [],
+    filters: {}
 
   }),
   persist: true,
@@ -110,9 +111,8 @@ export const useAppStore = defineStore('app', {
       this.servicePosts = {}
       this.uniqueCompanies= []
       this.uniqueCountries= []
-      this.filters = []
   },
-  async getPosts(auth,filters){
+  async getPosts(auth){
     const idtoken = (await auth.currentUser.getIdToken())
     const response = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/Posts/${auth.currentUser.uid}.json?auth=${idtoken}`)).data
     if(response)
@@ -150,7 +150,7 @@ export const useAppStore = defineStore('app', {
     saveAs(response.data, `${path}.pdf`)
   })
   },
-  async getPostsServices(auth,filters){
+  async getPostsServices(auth){
     const response = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/Posts.json`)).data
     if(response)
     {
@@ -161,6 +161,7 @@ export const useAppStore = defineStore('app', {
     })
     var company = Object.values(this.servicePosts).map(el => el.company)
     var countries = Object.values(this.servicePosts).map(el => el.country)
+    this.filters = {companies: company, countries: countries}
     this.uniqueCompanies = [...new Set(company)]
     this.uniqueCountries = [...new Set(countries)]
     }

@@ -11,7 +11,6 @@ class="flex-grow-0 flex-shrink-1 d-flex">
         multiple
         label="Country"
         density="compact"
-        @change="filter"
         v-model="selectedCountry">
         </v-select>
     </v-col>
@@ -42,29 +41,35 @@ export default {
       selectedCountry: [],
 }),
 computed: {
-  filter () {
-    console.log('hey')
-  }
-},
-methods: {
-  filterCompanies (){
-    var test = Object.values(useAppStore().servicePosts).filter((el) => el.company.includes(this.selectedCompany))
-    useAppStore().$patch({servicePosts: test})
-  },
-  filterCountries (){
-    var test = Object.values(useAppStore().servicePosts).filter((el) => el.country.includes(this.selectedCountry))
-    useAppStore().$patch({servicePosts: test})
-  },
-
-},
+    filters() {
+      return {companies: this.selectedCompany, countries: this.selectedCountry}
+    },
+ },
 watch: {
-  selectedCompany(){
-    this.filterCompanies()
+
+  filters: function(newVal, oldVal) {
+      const store = useAppStore()
+      store.filters = newVal
+    },
+    companies: {
+      immediate: true, // Set the default values immediately when the component is mounted
+      handler(newVal) {
+        // Wait until the props are available before setting the default values
+        if (newVal && newVal.length) {
+          this.selectedCompany = [...newVal];
+        }
+      },
+    },
+    countries: {
+      immediate: true, // Set the default values immediately when the component is mounted
+      handler(newVal) {
+        // Wait until the props are available before setting the default values
+        if (newVal && newVal.length) {
+          this.selectedCountry = [...newVal];
+        }
+      },
+    },
   },
-  selectedCountry(){
-    this.filterCountries()
-  }
-},
 }
 
 </script>

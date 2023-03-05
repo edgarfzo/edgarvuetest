@@ -54,9 +54,20 @@ import CompanyCard from '@/components/CompanyCard.vue'
       userInfo() {
         return useAppStore().currentUser
       },
-      servicePosts(filterCompanies, filterCountries) {
+      servicePosts() {
+        const filters = useAppStore().filters
+        var companies =  Object.values(useAppStore().uniqueCompanies)
+        var countries =  Object.values(useAppStore().uniqueCountries)
+        if (filters) {
+        companies = Object.values(filters.companies)
+        countries = Object.values(filters.countries)
+        }
         const posts = useAppStore().servicePosts
-        return posts
+        const filteredPosts = Object.values(posts).filter((el) => {
+          return companies.some((company) => el.company.includes(company)) &&
+                 countries.some((country) => el.country.includes(country))
+                })
+        return filteredPosts
       },
       companies() {
         return useAppStore().uniqueCompanies
@@ -70,8 +81,8 @@ import CompanyCard from '@/components/CompanyCard.vue'
   },
   mounted() {
     const store = useAppStore()
-    watch(() => store.servicePosts, (newVal, oldVal) => {
-      console.log('Filters changed:', newVal, oldVal)
+    watch(() => store.filters, (newVal, oldVal) => {
+        //console.log('Filters changed:', newVal, oldVal)
     })
   }}
 </script>
