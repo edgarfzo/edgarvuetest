@@ -7,7 +7,7 @@ outlined
 class="flex-grow-0 flex-shrink-1 d-flex">
     <v-col>
         <v-select
-        :items="countries"
+        :items="availableCountries"
         multiple
         label="Country"
         density="compact"
@@ -16,7 +16,7 @@ class="flex-grow-0 flex-shrink-1 d-flex">
     </v-col>
     <v-col>
         <v-select
-        :items="companies"
+        :items="availableCompanies"
         multiple
         label="Company"
         density="compact"
@@ -41,9 +41,26 @@ export default {
       selectedCountry: [],
 }),
 computed: {
+    availableCompanies () {
+      const countries = useAppStore().filters.countries
+      const availableCompanies = (Object.values(useAppStore().servicePosts).filter(el => 
+      countries.some((country) => el.country.includes(country)))).map(el => el.company)
+      const uniqueAvailableCompanies =[...new Set(availableCompanies)]
+      return uniqueAvailableCompanies
+    },
+    availableCountries () {
+      const companies = useAppStore().filters.companies
+      const availableCountries = (Object.values(useAppStore().servicePosts).filter(el => 
+      companies.some((company) => el.company.includes(company)))).map(el => el.country)
+      const uniqueAvailableCountries =[...new Set(availableCountries)]
+      return uniqueAvailableCountries
+    },
     filters() {
       return {companies: this.selectedCompany, countries: this.selectedCountry}
     },
+ },
+ methods: {
+
  },
 watch: {
 
