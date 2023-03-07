@@ -7,6 +7,10 @@ const routes = [
   { path:'/' ,
    redirect:'/signin'},
 
+   { path: '/ressetpassword', 
+   component: () => import('../views/RecoverPassword.vue'),
+   },
+
   { path: '/home/healthcare', 
   component: () => import('../views/HomeHealthcare.vue'),
   meta:{requiresAuth: true},
