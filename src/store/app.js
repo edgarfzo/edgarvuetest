@@ -20,6 +20,11 @@ export const useAppStore = defineStore('app', {
     currentUser: null,
     assignedPosts: {},
     unassignedPosts: {},
+    servicePosts: {},
+    uniqueCompanies: [],
+    uniqueCountries: [],
+    filters: {}
+
   }),
   persist: true,
   actions: {
@@ -74,7 +79,8 @@ export const useAppStore = defineStore('app', {
       this.currentUser =  response.user
   }
   },
-  async login(auth, email, password, type){
+
+ async login(auth, email, password, type){
     
     try {
     const response = await signInWithEmailAndPassword(auth, email, password)
@@ -102,8 +108,12 @@ export const useAppStore = defineStore('app', {
       this.currentUser = null 
       this.assignedPosts= {}
       this.unassignedPosts= {}
+      this.servicePosts = {}
+      this.uniqueCompanies= []
+      this.uniqueCountries= []
+      this.filters= {}
   },
-  async getPosts(auth,filters){
+  async getPosts(auth){
     const idtoken = (await auth.currentUser.getIdToken())
     const response = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/Posts/${auth.currentUser.uid}.json?auth=${idtoken}`)).data
     if(response)
@@ -116,7 +126,7 @@ export const useAppStore = defineStore('app', {
     const idtoken = (await auth.currentUser.getIdToken())
     const user = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/Users/${auth.currentUser.uid}.json?auth=${idtoken}`)).data
     const company = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/Companies/${user.company}.json?`)).data
-    if(company.logo) {
+    if(company) {
     payload.logo = company.logo
     }
     payload.company = user.company
@@ -140,6 +150,24 @@ export const useAppStore = defineStore('app', {
   .then((response) => {
     saveAs(response.data, `${path}.pdf`)
   })
-  }}})
+  },
+  async getPostsServices(auth){
+    const response = (await axios.get(`${import.meta.env.VITE_APP_DB_URL}/Posts.json`)).data
+    if(response)
+    {
+    Object.keys(response).forEach(el => { 
+      Object.keys(response[el]).forEach(childEl=> {
+      this.servicePosts[childEl] = response[el][childEl]
+      })
+    })
+    var company = Object.values(this.servicePosts).map(el => el.company)
+    var countries = Object.values(this.servicePosts).map(el => el.country)
+    this.filters = {companies: company, countries: countries}
+    this.uniqueCompanies = [...new Set(company)]
+    this.uniqueCountries = [...new Set(countries)]
+    }
+},
+
+}})
 
 

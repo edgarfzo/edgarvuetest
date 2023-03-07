@@ -25,13 +25,16 @@
       </CompanyCard>
       </v-col>
     </v-row>
+    <br/>
     Assigned Posts
-    <v-row v-for="item in assignedPosts">
+    <v-row v-for="item in assignedPosts"
+    class="pa-2">
       <v-col
       class="pa-2"
       cols="12">
         <CompanyCard
         :CompanyName="item.company"
+        :Country="item.country"
         :Description="item.description"
         :Title="item.title"
         :Logo="item.logo"
