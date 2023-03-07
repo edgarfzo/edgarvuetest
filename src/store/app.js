@@ -4,7 +4,8 @@ import FormData from 'form-data'
 import { filterPosts } from './utils'
 import axios from 'axios'
 import {
-
+      sendPasswordResetEmail,
+      confirmPasswordReset,
       createUserWithEmailAndPassword,
       fetchSignInMethodsForEmail,
       signInWithEmailAndPassword,
@@ -112,6 +113,9 @@ export const useAppStore = defineStore('app', {
       this.uniqueCompanies= []
       this.uniqueCountries= []
       this.filters= {}
+  },
+  async passwordReset (auth, email) {
+    await sendPasswordResetEmail(auth, email).catch(error =>alert(error))
   },
   async getPosts(auth){
     const idtoken = (await auth.currentUser.getIdToken())
