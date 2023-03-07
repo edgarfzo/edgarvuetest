@@ -17,15 +17,17 @@
   
         <div> {{Description}}</div>
       </v-card-text>
+      <v-card-text>
+        <div></div>
+  
+        <div> {{Country}}</div>
+      </v-card-text>
   
       <v-card-actions>
         <v-btn color="orange" @click="downloadPDF">
-          Share
+          Download PDF
         </v-btn>
-  
-        <v-btn color="orange">
-          Explore
-        </v-btn>
+
       </v-card-actions>
     </v-card>
   </template>
@@ -38,6 +40,7 @@ import { getAuth } from "firebase/auth"
         CompanyName: String,
         Title: String,
         Description: String,
+        Country: String,
         Logo: String,
         PostId: String
     },

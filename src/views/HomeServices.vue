@@ -20,17 +20,22 @@
         </Search>
       </v-col>
     </v-row>
-    <v-row v-for="item in servicePosts">
+    <v-row v-if="!emptyPosts" v-for="item in servicePosts">
       <v-col
       class="pa-2"
       cols="12">
         <CompanyCard
         :CompanyName="item.company"
         :Description="item.description"
+        :Country="item.country"
         :Title="item.title"
-        :Logo="item.logo">
+        :Logo="item.logo"
+        :PostId="item.postid">
       </CompanyCard>
       </v-col>
+    </v-row>
+    <v-row v-if="emptyPosts">
+      There are no posts that match your filtering settings
     </v-row>
   </v-container>
 </template>
@@ -50,6 +55,9 @@ import CompanyCard from '@/components/CompanyCard.vue'
     Search,
     CompanyCard
     }, 
+    data: () => ({
+     emptyPosts: false
+            }),
     computed: {
       userInfo() {
         return useAppStore().currentUser
@@ -59,14 +67,21 @@ import CompanyCard from '@/components/CompanyCard.vue'
         var companies =  Object.values(useAppStore().uniqueCompanies)
         var countries =  Object.values(useAppStore().uniqueCountries)
         if (filters) {
-        companies = Object.values(filters.companies)
-        countries = Object.values(filters.countries)
+        companies = filters.companies ? Object.values(filters.companies) : []
+        countries = filters.countries ? Object.values(filters.countries) : []
         }
         const posts = useAppStore().servicePosts
-        const filteredPosts = Object.values(posts).filter((el) => {
+        const filteredPosts = filters.companies && filters.companies ? Object.values(posts).filter((el) => {
           return companies.some((company) => el.company.includes(company)) &&
                  countries.some((country) => el.country.includes(country))
-                })
+                }) : posts
+        console.log(filteredPosts)
+          if(filteredPosts.length<1)
+          {
+            this.emptyPosts = true
+          } else {
+            this.emptyPosts = false
+          }
         return filteredPosts
       },
       companies() {
@@ -82,6 +97,7 @@ import CompanyCard from '@/components/CompanyCard.vue'
   mounted() {
     const store = useAppStore()
     watch(() => store.filters, (newVal, oldVal) => {
+        this.servicePosts
         //console.log('Filters changed:', newVal, oldVal)
     })
   }}

@@ -7,7 +7,7 @@ outlined
 class="flex-grow-0 flex-shrink-1 d-flex">
     <v-col>
         <v-select
-        :items="availableCountries"
+        :items="countries"
         multiple
         label="Country"
         density="compact"
@@ -16,7 +16,7 @@ class="flex-grow-0 flex-shrink-1 d-flex">
     </v-col>
     <v-col>
         <v-select
-        :items="availableCompanies"
+        :items="companies"
         multiple
         label="Company"
         density="compact"
