@@ -54,8 +54,9 @@ jobs:
     - name: Deploy to remote server
       uses: easingthemes/ssh-deploy@v2.1.6
       with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-        ssh-public-key: ${{ secrets.SSH_PUBLIC_KEY }}
-        server: edgar@192.168.0.5
-        serverDir: /Users/edgar/projects
-        localDir: .
+        ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+        remote_host: 192.168.0.5
+        remote_user: edgar
+        remote_port: 22
+        target: /Users/edgar/projects
+        source: .
