@@ -41,14 +41,41 @@ jobs:
           channelId: live
           projectId: test-e4100
 
-  deploy_ssh:
+  build-and-deploy:
     runs-on: ubuntu-latest
     environment: 'development'
     steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+
+      - run: npm install
+      - run: npm run build
+
       - name: Install SSH Key
         uses: shimataro/ssh-key-action@v2
         with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }} 
-          known_hosts: ssh-keyscan -H 192.168.0.5 >> ~/.ssh/known_hosts
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: unnecessary
+
+      - name: Adding Known Hosts
+        run: ssh-keyscan -p 22 -H 192.168.0.5  >> ~/.ssh/known_hosts
+
       - name: Deploy with rsync
-        run: rsync -avz ./dist/ edgar@192.168.0.5:/Users/edgar/projects/sshtest/
+        run: rsync -avz -e "ssh -p 22" ./dist/ edgar@192.168.0.5:/Users/edgar/projects/sshtest/
+
+      - name: Restart Node Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: 192.168.0.5
+          username: edgar
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd /Users/edgar/projects/sshtest/
+            git fetch origin master
+            git reset --hard FETCH_HEAD
+            git clean -d -f --exclude secrets
+            npm install --production
+            chown $(whoami) . # PM2 doesn't recognize root user from Github Actions
+            npm run restart
+  
