@@ -41,41 +41,24 @@ jobs:
           channelId: live
           projectId: test-e4100
 
-  build-and-deploy_ssh:
+  deploy_ssh:
     runs-on: ubuntu-latest
     environment: 'development'
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v3
-
-      - run: npm install
-      - run: npm run build
-
-      - name: Install SSH Key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: 'unnecessary'
-
-      - name: Adding Known Hosts
-        run: ssh-keyscan -H 192.168.0.5 >> ~/.ssh/known_hosts
-
-      - name: Deploy with rsync
-        run: rsync -avz -e "ssh -p 22" ./dist/ edgar@192.168.0.5:/Users/edgar/projects/sshtest/
-
-      - name: Restart Node Server
-        uses: appleboy/ssh-action@master
-        with:
-          host: 192.168.0.5
-          username: edgar
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          script: |
-            cd /Users/edgar/projects/sshtest/
-            git fetch origin master
-            git reset --hard FETCH_HEAD
-            git clean -d -f --exclude secrets
-            npm install --production
-            chown $(whoami) . # PM2 doesn't recognize root user from Github Actions
-            npm run restart
-  
+    - uses: actions/checkout@v2
+    - name: Set up Node.js
+      uses: actions/setup-node@v2-beta
+      with:
+        node-version: '14.x'
+    - name: Install dependencies
+      run: npm install
+    - name: Deploy to remote server
+      uses: easingthemes/ssh-deploy@v2.1.6
+      with:
+        ssh_password: ${{ secrets.SSH_PASSWORD }}
+        remote_host: 94.147.147.35
+        remote_user: edgar
+        remote_port: 27
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        target: /Users/edgar/projects/sshtest
+        source: .
