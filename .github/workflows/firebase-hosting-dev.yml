@@ -59,6 +59,6 @@ jobs:
         remote_host: 192.168.0.5
         remote_user: edgar
         remote_port: 22
-        SSH_PRIVATE_KEY: '${{ secrets.SSH_PRIVATE_KEY }}'
-        target: /Users/edgar/projects
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        target: /Users/edgar/projects/sshtest
         source: .
