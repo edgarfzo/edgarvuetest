@@ -58,7 +58,7 @@ jobs:
           known_hosts: unnecessary
 
       - name: Adding Known Hosts
-        run: ssh-keyscan -p 22 -H 192.168.0.5  >> ~/.ssh/known_hosts
+        run: ssh-keyscan -H 192.168.0.5  >> ~/.ssh/known_hosts
 
       - name: Deploy with rsync
         run: rsync -avz -e "ssh -p 22" ./dist/ edgar@192.168.0.5:/Users/edgar/projects/sshtest/
