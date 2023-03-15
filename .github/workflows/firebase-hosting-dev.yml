@@ -51,4 +51,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }} 
           known_hosts: ssh-keyscan -H 192.168.0.5 >> ~/.ssh/known_hosts
       - name: Deploy with rsync
-        run: rsync -avz ./dist/ edgar@$192.168.0.5:/Users/edgar/projects/sshtest/
+        run: rsync -avz ./dist/ edgar@192.168.0.5:/Users/edgar/projects/sshtest/
