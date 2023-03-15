@@ -55,7 +55,7 @@ jobs:
     - name: Deploy to remote server
       uses: easingthemes/ssh-deploy@v2.1.6
       with:
-        
+        ssh_password: ${{ secrets.SSH_PASSWORD }}
         remote_host: 192.168.0.5
         remote_user: edgar
         remote_port: 22
