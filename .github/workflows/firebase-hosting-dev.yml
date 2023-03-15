@@ -41,24 +41,21 @@ jobs:
           channelId: live
           projectId: test-e4100
 
-  deploy_to_ssh:
+  deploy_ssh:
     runs-on: ubuntu-latest
     steps:
-      - name: Install SSH client
-        run: sudo apt-get update && sudo apt-get install -y openssh-client
-      - name: SSH deploy
-        uses: appleboy/ssh-action@master
-        with:
-          host: 192.168.0.5
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          script: |
-            cd /Users/edgar/projects/
-            mkdir ssh_test
-            cd ssh_test
-            git clone https://github.com/edgarfzo/edgarvuetest.git
-            cd edgarvuestest
-            git checkout master
-            git pull
-            npm install
-            npm run build
+    - uses: actions/checkout@v2
+    - name: Set up Node.js
+      uses: actions/setup-node@v2-beta
+      with:
+        node-version: '14.x'
+    - name: Install dependencies
+      run: npm install
+    - name: Deploy to remote server
+      uses: easingthemes/ssh-deploy@v2.1.6
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        ssh-public-key: ${{ secrets.SSH_PUBLIC_KEY }}
+        server: edgar@192.168.0.5
+        serverDir: /Users/edgar/projects
+        localDir: .
