@@ -46,7 +46,8 @@ jobs:
     environment: 'development'
     steps:
     - uses: actions/checkout@v2
-    - run: ssh -i ${{ secrets.SSH_PRIVATE_KEY }} -p 27 edgar@94.147.147.35 &&
+    - run: ssh-add - <<< ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh -p 27 edgar@94.147.147.35 &&
           ls
 
 
