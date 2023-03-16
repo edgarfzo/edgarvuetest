@@ -46,8 +46,13 @@ jobs:
     environment: 'development'
     steps:
     - uses: actions/checkout@v2
-    - run: ssh-add - <<< '${{ secrets.SSH_PRIVATE_KEY }}'
-          ssh -p 27 edgar@94.147.147.35 &&
-          ls
+    - name: Add SSH key to agent
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-add ~/.ssh/id_rsa
+    - name: SSH to remote server
+      run: ssh -p 27 edgar@94.147.147.35 && ls
 
 
