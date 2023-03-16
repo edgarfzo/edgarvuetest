@@ -53,6 +53,6 @@ jobs:
     - name: Adding Known Hosts
       run: ssh-keyscan -p 27 -H 94.147.147.35 >> ~/.ssh/known_hosts
     - name: Deploy with rsync
-      run: rsync -avz -e "ssh -p 27" ./dist/ edgar@94.147.147.35:/Users/edgar/projects/sshtest/
+      run: rsync -avz -e "ssh -p 27" ./ edgar@94.147.147.35:/Users/edgar/projects/sshtest/
 
 
