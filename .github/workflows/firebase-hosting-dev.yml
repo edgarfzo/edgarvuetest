@@ -46,18 +46,7 @@ jobs:
     environment: 'development'
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Node.js
-      uses: actions/setup-node@v2-beta
-      with:
-        node-version: '14.x'
-    - name: Install dependencies
-      run: npm install
-    - name: Deploy to remote server
-      uses: easingthemes/ssh-deploy@v2.1.6
-      with:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        remote_host: 94.147.147.35
-        remote_user: edgar
-        remote_port: 27
-        target: /Users/edgar/projects
-        source: .
+    - run: ssh -i ${{ secrets.SSH_PRIVATE_KEY }} -p 27 edgar@94.147.147.35 &&
+          ls
+
+
