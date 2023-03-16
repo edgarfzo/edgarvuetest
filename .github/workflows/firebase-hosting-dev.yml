@@ -45,14 +45,14 @@ jobs:
     runs-on: ubuntu-latest
     environment: 'development'
     steps:
-    - uses: actions/checkout@v2
-    - name: Add SSH key to agent
-      run: |
-        mkdir -p ~/.ssh &&
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa &&
-        chmod 600 ~/.ssh/id_rsa &&
-        ssh-add ~/.ssh/id_rsa
-    - name: SSH to remote server
-      run: ssh -p 27 edgar@94.147.147.35 && ls
+    - name: Install SSH Key
+      uses: shimataro/ssh-key-action@v2
+      with:
+        key: ${{ secrets.SSH_PRIVATE_KEY }} 
+        known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
+    - name: Adding Known Hosts
+      run: ssh-keyscan -p 27 -H 94.147.147.35 >> ~/.ssh/known_hosts
+    - name: Deploy with rsync
+      run: rsync -avz -e "ssh -p 27" ./dist/ edgar@94.147.147.35:/Users/edgar/projects/sshtest/
 
 
